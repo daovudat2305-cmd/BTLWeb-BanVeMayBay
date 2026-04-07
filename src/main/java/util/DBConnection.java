@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DBConnection {
 	public static Connection getConnection() {
-		final String url = "jdbc:mysql://44NuFHUT7nncDeg.root:q4DVdeOWvHzP14rx@gateway01.ap-southeast-1.prod.aws.tidbcloud.com:4000/test?sslMode=VERIFY_IDENTITY";
+		final String url = "jdbc:mysql://44NuFHUT7nncDeg.root:q4DVdeOWvHzP14rx@gateway01.ap-southeast-1.prod.aws.tidbcloud.com:4000/book_airline_tickets?sslMode=VERIFY_IDENTITY&useUnicode=true&characterEncoding=UTF-8";
 		final String user = "44NuFHUT7nncDeg.root";
 		final String password = "q4DVdeOWvHzP14rx";
 		

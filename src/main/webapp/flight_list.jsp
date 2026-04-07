@@ -1,10 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kết quả tìm kiếm chuyến bay</title>
+    <link rel="icon" type="image/svg+xml" href="./assets/logo.svg">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -23,10 +25,25 @@
                 </a>
             </div>
         </div>
-        <div class="flex items-center space-x-4">
-            <a href="login.jsp" class="text-gray-600 font-medium hover:text-blue-600">Đăng nhập</a>
-            <a href="register.jsp" class="bg-blue-600 text-white px-5 py-2 rounded-lg font-bold hover:bg-blue-700 transition">Đăng ký</a>
-        </div>
+        <c:choose>
+		    <c:when test="${user == null}">
+		        <div class="flex items-center space-x-4">
+		            <a href="login.jsp" class="text-gray-600 font-medium hover:text-blue-600">Đăng nhập</a>
+		            <a href="register.jsp" class="bg-blue-600 text-white px-5 py-2 rounded-lg font-bold hover:bg-blue-700 transition">Đăng ký</a>
+		        </div>
+		    </c:when>
+		    <c:otherwise>
+		        <div class="flex items-center space-x-4">
+		            <div class="text-gray-600 font-medium flex items-center gap-2">
+		                <i class="fa-solid fa-circle-user text-xl text-blue-600"></i>
+		                <span>${user.fullName}</span>
+		            </div>
+		            <a href="logout" class="text-red-400 font-medium hover:text-red-600 transition flex items-center gap-2">
+                        <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+                    </a>
+		        </div>
+		    </c:otherwise>
+		</c:choose>
     </nav>
 
     <div class="bg-[#1e3a8a] text-white py-6 px-4 shadow-md">
