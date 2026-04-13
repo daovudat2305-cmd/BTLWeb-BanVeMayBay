@@ -28,7 +28,7 @@ public class AdminFilter implements Filter{
 		//đường dẫn mà người dùng đang muốn truy cập
 		String uri = req.getRequestURI();
 		
-		if (uri.contains("/admin_")) {
+		if (uri.contains("/admin")) {
 			if (uri.contains("/admin_login.jsp")) {
 				chain.doFilter(request, response);
 				return; 

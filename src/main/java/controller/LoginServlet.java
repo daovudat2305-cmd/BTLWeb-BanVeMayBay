@@ -38,7 +38,7 @@ public class LoginServlet extends HttpServlet{
 			HttpSession session = req.getSession();
 			session.setAttribute("user", user);
 			
-			String targetSuccessPage = "ADMIN".equals(user.getRole()) ? "/admin_dashboard.jsp" : "/index.jsp";
+			String targetSuccessPage = "ADMIN".equals(user.getRole()) ? "/admin_dashboard.jsp" : "/home";
 			
 			resp.sendRedirect(req.getContextPath() + targetSuccessPage);
 		}

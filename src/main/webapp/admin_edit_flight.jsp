@@ -20,7 +20,7 @@
             <a href="admin_dashboard.jsp" class="flex items-center gap-3 py-3 px-4 rounded-xl hover:bg-blue-700 transition text-blue-100 hover:text-white font-medium">
                 <i class="fa-solid fa-chart-pie w-5"></i> Tổng quan
             </a>
-            <a href="admin_flight_list.jsp" class="flex items-center gap-3 py-3 px-4 rounded-xl bg-blue-700 font-bold shadow-lg shadow-blue-900/20">
+            <a href="adminFlights" class="flex items-center gap-3 py-3 px-4 rounded-xl bg-blue-700 font-bold shadow-lg shadow-blue-900/20">
                 <i class="fa-solid fa-plane w-5"></i> Quản lý chuyến bay
             </a>
             <a href="admin_customer_list.jsp" class="flex items-center gap-3 py-3 px-4 rounded-xl hover:bg-blue-700 transition text-blue-100 hover:text-white font-medium">
@@ -44,7 +44,7 @@
                         Sửa chuyến bay <span class="text-yellow-400">#VJ-101</span>
                     </h2>
                 </div>
-                <a href="admin_flight_list.jsp" class="bg-white/10 hover:bg-white/20 text-white font-bold py-3 px-6 rounded-xl transition border border-white/20 flex items-center gap-2 text-sm">
+                <a href="adminFlights" class="bg-white/10 hover:bg-white/20 text-white font-bold py-3 px-6 rounded-xl transition border border-white/20 flex items-center gap-2 text-sm">
                     <i class="fa-solid fa-arrow-left"></i> QUAY LẠI
                 </a>
             </div>

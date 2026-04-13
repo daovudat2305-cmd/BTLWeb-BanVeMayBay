@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -47,7 +48,7 @@
     </nav>
 
     <main class="flex-grow">
-        <div class="bg-[#1e3a8a] py-16 px-4">
+        <div class="bg-[url(./assets/background.jpg)] bg-center bg-no-repeat bg-cover py-16 px-4">
             <div class="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl p-6 md:p-8">
                 
                 <div class="flex space-x-6 mb-6">
@@ -100,92 +101,121 @@
             </div>
         </div>
 
-        <div class="bg-white py-12 px-4 text-center">
-            <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-50 rounded-full mb-4">
-                <i class="fa-solid fa-plane text-2xl text-blue-600"></i>
-            </div>
-            <h3 class="text-xl font-bold text-gray-900 mb-2">Tìm kiếm dễ dàng</h3>
-            <p class="text-gray-500 max-w-sm mx-auto">Hơn 100 hãng hàng không nội địa và quốc tế được tích hợp.</p>
-        </div>
-
         <div class="bg-gray-50 py-16 px-4">
             <div class="text-center mb-10">
                 <h2 class="text-3xl font-extrabold text-gray-900 mb-3">Vé máy bay rẻ nhất</h2>
                 <p class="text-gray-500">Cập nhật giá vé tốt nhất mỗi ngày.</p>
             </div>
 
-            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                
-                <div class="bg-white rounded-2xl shadow-sm hover:shadow-md transition overflow-hidden relative border border-gray-100">
-                    <div class="absolute top-3 right-3 bg-red-600 text-white text-sm font-bold px-3 py-1.5 rounded">
-                        1.200.000 đ
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?q=80&w=2102&auto=format&fit=crop" alt="Đà Nẵng" class="w-full h-48 object-cover">
-                    <div class="p-5 text-center">
-                        <span class="inline-block bg-yellow-100 text-yellow-800 text-xs font-bold px-2 py-1 rounded mb-2">Vietjet Air</span>
-                        <h4 class="text-lg font-bold text-gray-900 mb-1">
-                            Hà Nội <i class="fa-solid fa-arrow-right text-blue-500 mx-1 text-sm"></i> Đà Nẵng
-                        </h4>
-                        <p class="text-xs text-gray-400 mb-5">Khởi hành: 22/11/2026</p>
-                        <button class="w-full border-2 border-blue-600 text-blue-600 font-semibold py-2 rounded-lg hover:bg-blue-50 transition">
-                            Mua ngay
-                        </button>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-2xl shadow-sm hover:shadow-md transition overflow-hidden relative border border-gray-100">
-                    <div class="absolute top-3 right-3 bg-red-600 text-white text-sm font-bold px-3 py-1.5 rounded">
-                        1.550.000 đ
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=80&w=2070" alt="Hà Nội" class="w-full h-48 object-cover">
-                    <div class="p-5 text-center">
-                        <span class="inline-block bg-blue-100 text-blue-800 text-xs font-bold px-2 py-1 rounded mb-2">Vietnam Airlines</span>
-                        <h4 class="text-lg font-bold text-gray-900 mb-1">
-                            Hồ Chí Minh <i class="fa-solid fa-arrow-right text-blue-500 mx-1 text-sm"></i> Hà Nội
-                        </h4>
-                        <p class="text-xs text-gray-400 mb-5">Khởi hành: 25/11/2026</p>
-                        <button class="w-full border-2 border-blue-600 text-blue-600 font-semibold py-2 rounded-lg hover:bg-blue-50 transition">
-                            Mua ngay
-                        </button>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-2xl shadow-sm hover:shadow-md transition overflow-hidden relative border border-gray-100">
-                    <div class="absolute top-3 right-3 bg-red-600 text-white text-sm font-bold px-3 py-1.5 rounded">
-                        980.000 đ
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1583417319070-4a69db38a482?q=80&w=2070&auto=format&fit=crop" alt="Nha Trang" class="w-full h-48 object-cover">
-                    <div class="p-5 text-center">
-                        <span class="inline-block bg-green-100 text-green-800 text-xs font-bold px-2 py-1 rounded mb-2">Bamboo Airways</span>
-                        <h4 class="text-lg font-bold text-gray-900 mb-1">
-                            Hà Nội <i class="fa-solid fa-arrow-right text-blue-500 mx-1 text-sm"></i> Nha Trang
-                        </h4>
-                        <p class="text-xs text-gray-400 mb-5">Khởi hành: 30/11/2026</p>
-                        <button class="w-full border-2 border-blue-600 text-blue-600 font-semibold py-2 rounded-lg hover:bg-blue-50 transition">
-                            Mua ngay
-                        </button>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-2xl shadow-sm hover:shadow-md transition overflow-hidden relative border border-gray-100">
-                    <div class="absolute top-3 right-3 bg-red-600 text-white text-sm font-bold px-3 py-1.5 rounded">
-                        890.000 đ
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?q=80&w=1974&auto=format&fit=crop" alt="Đà Lạt" class="w-full h-48 object-cover">
-                    <div class="p-5 text-center">
-                        <span class="inline-block bg-yellow-100 text-yellow-800 text-xs font-bold px-2 py-1 rounded mb-2">Vietjet Air</span>
-                        <h4 class="text-lg font-bold text-gray-900 mb-1">
-                            Hồ Chí Minh <i class="fa-solid fa-arrow-right text-blue-500 mx-1 text-sm"></i> Đà Lạt
-                        </h4>
-                        <p class="text-xs text-gray-400 mb-5">Khởi hành: 05/12/2026</p>
-                        <button class="w-full border-2 border-blue-600 text-blue-600 font-semibold py-2 rounded-lg hover:bg-blue-50 transition">
-                            Mua ngay
-                        </button>
-                    </div>
-                </div>
-
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+               <c:forEach var="f" items="${cheapestFlights}">
+                   <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden relative border border-orange-100 flex flex-col group">
+                       <div class="absolute top-3 right-3 bg-red-600 text-white text-sm font-bold px-3 py-1.5 rounded z-10 shadow-md">
+                           <fmt:formatNumber value="${f.price}" type="currency" currencySymbol="" maxFractionDigits="0"/> đ
+                       </div>
+                       <img src="./assets/${f.destinationAirport}.jpg" class="w-full h-44 object-cover group-hover:scale-110 transition duration-500">
+                       <div class="p-5 text-center flex-grow flex flex-col justify-between bg-gradient-to-b from-white to-orange-50/30">
+                           <div>
+                               <span class="inline-block bg-blue-50 text-blue-700 text-[10px] font-black uppercase px-2 py-1 rounded mb-3 border border-blue-100">${f.airlineName}</span>
+                               <h4 class="text-lg font-bold text-gray-900 mb-2">
+								    ${f.departureAirportName}
+								    <i class="fa-solid fa-plane-departure text-blue-400 mx-2 text-xs"></i> 
+								    ${f.destinationAirportName}
+								</h4>
+								<p class="text-[11px] text-gray-500 font-bold mb-5 uppercase tracking-tighter">
+                                   Khởi hành: <span class="text-gray-800"><fmt:formatDate pattern="dd/MM/yyyy" value="${f.departureTime}" /></span>
+                               	</p>
+	                            <div class="flex justify-between items-center bg-gray-50 rounded-lg p-2 mb-4">
+	                            	
+	                                <div class="text-center">
+	                                    <span class="block text-xs font-black text-gray-800"><fmt:formatDate pattern="HH:mm" value="${f.departureTime}" /></span>
+	                                    <span class="text-[10px] text-gray-400 font-bold uppercase">${f.departureAirport}</span>
+	                                </div>
+	                                <i class="fa-solid fa-arrow-right-long text-gray-300 text-xs"></i>
+	                                <div class="text-center">
+	                                    <span class="block text-xs font-black text-gray-800"><fmt:formatDate pattern="HH:mm" value="${f.arrivalTime}" /></span>
+	                                    <span class="text-[10px] text-gray-400 font-bold uppercase">${f.destinationAirport}</span>
+	                                </div>
+	                            </div>
+                           </div>
+                           <a href="booking?id=${f.flightId}" class="w-full bg-white text-orange-600 border border-orange-200 font-bold py-2 rounded-xl hover:bg-orange-500 hover:text-white transition shadow-sm">Đặt ngay</a>
+                       </div>
+                   </div>
+               </c:forEach>
             </div>
         </div>
+        
+        <section class="max-w-6xl mx-auto py-12 px-4">
+		    <h2 class="text-2xl font-extrabold text-gray-900 mb-8 border-l-4 border-blue-600 pl-4">Khám phá thêm các chuyến bay</h2>
+        
+	        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+	            <c:forEach var="f" items="${regularFlights}">
+	                <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden relative border border-gray-100 flex flex-col group">
+	                    
+	                    <div class="absolute top-3 right-3 bg-blue-600 text-white text-sm font-bold px-3 py-1.5 rounded z-10 shadow-md">
+	                        <fmt:formatNumber value="${f.price}" type="currency" currencySymbol="" maxFractionDigits="0"/> đ
+	                    </div>
+	
+	                    <div class="relative overflow-hidden h-40">
+	                        <img src="./assets/${f.destinationAirport}.jpg" 
+	                             class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+	                        <div class="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-300"></div>
+	                    </div>
+	                    
+	                    <div class="p-5 text-center flex-grow flex flex-col justify-between">
+	                        <div>
+	                            <span class="inline-block bg-blue-50 text-blue-700 text-[10px] font-black uppercase px-2 py-1 rounded mb-3 border border-blue-100">
+	                                ${f.airlineName}
+	                            </span>
+	                            
+	                            <h4 class="text-sm font-bold text-gray-900 mb-2">
+								    ${f.departureAirportName}
+								    <i class="fa-solid fa-plane-departure text-blue-400 mx-2 text-xs"></i> 
+								    ${f.destinationAirportName}
+								</h4>
+								<p class="text-[11px] text-gray-500 font-bold mb-5 uppercase tracking-tighter">
+                                   Khởi hành: <span class="text-gray-800"><fmt:formatDate pattern="dd/MM/yyyy" value="${f.departureTime}" /></span>
+                               	</p>
+	                            <div class="flex justify-between items-center bg-gray-50 rounded-lg p-2 mb-4">
+	                            	
+	                                <div class="text-center">
+	                                    <span class="block text-xs font-black text-gray-800"><fmt:formatDate pattern="HH:mm" value="${f.departureTime}" /></span>
+	                                    <span class="text-[10px] text-gray-400 font-bold uppercase">${f.departureAirport}</span>
+	                                </div>
+	                                <i class="fa-solid fa-arrow-right-long text-gray-300 text-xs"></i>
+	                                <div class="text-center">
+	                                    <span class="block text-xs font-black text-gray-800"><fmt:formatDate pattern="HH:mm" value="${f.arrivalTime}" /></span>
+	                                    <span class="text-[10px] text-gray-400 font-bold uppercase">${f.destinationAirport}</span>
+	                                </div>
+	                            </div>
+	                        </div>
+	
+	                        <a href="booking?id=${f.flightId}" class="w-full bg-blue-600 text-white font-bold py-2.5 rounded-xl hover:bg-blue-700 transition shadow-sm flex items-center justify-center gap-2">
+	                            Đặt vé <i class="fa-solid fa-chevron-right text-[10px]"></i>
+	                        </a>
+	                    </div>
+	                </div>
+	            </c:forEach>
+	        </div>
+		
+		    <c:if test="${totalPages > 1}">
+		        <div class="flex justify-center items-center gap-2">
+		            <c:if test="${currentPage > 1}">
+		                <a href="home?page=${currentPage - 1}" class="px-4 py-2 rounded-lg border bg-white">Trước</a>
+		            </c:if>
+		
+		            <c:forEach begin="1" end="${totalPages}" var="i">
+		                <a href="home?page=${i}" class="px-4 py-2 rounded-lg ${currentPage == i ? 'bg-blue-600 text-white font-bold' : 'bg-white border text-gray-600'}">
+		                    ${i}
+		                </a>
+		            </c:forEach>
+		
+		            <c:if test="${currentPage < totalPages}">
+		                <a href="home?page=${currentPage + 1}" class="px-4 py-2 rounded-lg border bg-white">Sau</a>
+		            </c:if>
+		        </div>
+		    </c:if>
+		</section>
     </main>
 
     <footer class="bg-gray-800 text-gray-300 py-8 mt-auto">

@@ -19,7 +19,7 @@ public class LogoutServlet extends HttpServlet {
     	//session có sẵn thì lấy, không thì không tạo mới
     	HttpSession session = req.getSession(false);
         
-    	String targetPage = "index.jsp";
+    	String targetPage = "home";
         if (session != null) {
         	User user = (User) session.getAttribute("user");
         	if(user.getRole().equalsIgnoreCase("ADMIN")) {
