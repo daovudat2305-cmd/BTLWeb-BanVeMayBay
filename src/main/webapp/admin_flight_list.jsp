@@ -94,7 +94,7 @@
                             </div>
                             <div class="flex gap-2 w-full">
                                 <a href="EditFlightServlet?id=${f.flightId}" class="flex-1 bg-blue-50 text-blue-600 text-center font-bold py-2 rounded-lg hover:bg-blue-100 transition text-sm">Sửa</a>
-                                <a href="DeleteFlightServlet?id=${f.flightId}" onclick="return confirm('Bạn có chắc chắn muốn xóa chuyến bay này?');" class="flex-1 bg-red-50 text-red-600 text-center font-bold py-2 rounded-lg hover:bg-red-100 transition text-sm">Xóa</a>
+                               <button type="button" onclick="openDeleteModal('DeleteFlightServlet?id=${f.flightId}')" class="flex-1 bg-red-50 text-red-600 text-center font-bold py-2 rounded-lg hover:bg-red-100 transition text-sm">Xóa</button>
                             </div>
                         </div>
                     </div>
@@ -179,6 +179,51 @@
 	            showToast(serverError, "error");
 	        }
 	    });
+            // Hàm mở Modal xóa
+            function openDeleteModal(url) {
+                const modal = document.getElementById('deleteModal');
+                const link = document.getElementById('confirmDeleteLink');
+                link.href = url; // Gán đường dẫn xóa vào nút xác nhận
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Chặn cuộn trang
+            }
+
+            // Hàm đóng Modal
+            function closeDeleteModal() {
+                const modal = document.getElementById('deleteModal');
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto'; // Cho phép cuộn lại
+            }
+
+            // Đóng khi click ra ngoài vùng trắng
+            window.addEventListener('click', function(e) {
+                const modal = document.getElementById('deleteModal');
+                if (e.target === modal) closeDeleteModal();
+            });
     </script>
+        <div id="deleteModal" class="fixed inset-0 z-[60] hidden overflow-y-auto">
+         <div class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"></div>
+         <div class="relative flex items-center justify-center min-h-screen p-4">
+             <div class="relative bg-white rounded-3xl shadow-2xl max-w-sm w-full p-8 transform transition-all border border-gray-100">
+                 <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-red-50 mb-6">
+                     <i class="fa-solid fa-triangle-exclamation text-red-500 text-3xl"></i>
+                 </div>
+                 <div class="text-center">
+                     <h3 class="text-2xl font-black text-gray-900 mb-3">Xác nhận xóa?</h3>
+                     <p class="text-gray-500 leading-relaxed">
+                         Dữ liệu về chuyến bay này sẽ bị xóa vĩnh viễn khỏi hệ thống. Bạn có chắc chắn không?
+                     </p>
+                 </div>
+                 <div class="mt-8 flex gap-3">
+                     <button onclick="closeDeleteModal()" class="flex-1 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-2xl transition-all">
+                         Quay lại
+                     </button>
+                     <a id="confirmDeleteLink" href="#" class="flex-1 px-4 py-3 bg-red-600 hover:bg-red-700 text-white text-center font-bold rounded-2xl transition-all shadow-lg shadow-red-200">
+                         Đồng ý xóa
+                     </a>
+                 </div>
+             </div>
+         </div>
+     </div> 
 </body>
 </html> 
