@@ -32,4 +32,8 @@ public class DBConnection {
 			System.out.println("that bai");
 		}
 	}
+
+    public static Connection getConnnection() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

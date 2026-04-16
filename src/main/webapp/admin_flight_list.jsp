@@ -93,8 +93,8 @@
                                 <fmt:formatNumber value="${f.price}" type="currency" currencySymbol="" maxFractionDigits="0"/> đ
                             </div>
                             <div class="flex gap-2 w-full">
-                                <a href="admin_edit_flight.jsp?id=${f.flightId}" class="flex-1 bg-blue-50 text-blue-600 text-center font-bold py-2 rounded-lg hover:bg-blue-100 transition text-sm">Sửa</a>
-                                <button class="flex-1 bg-red-50 text-red-600 text-center font-bold py-2 rounded-lg hover:bg-red-100 transition text-sm">Xóa</button>
+                                <a href="EditFlightServlet?id=${f.flightId}" class="flex-1 bg-blue-50 text-blue-600 text-center font-bold py-2 rounded-lg hover:bg-blue-100 transition text-sm">Sửa</a>
+                                <a href="DeleteFlightServlet?id=${f.flightId}" onclick="return confirm('Bạn có chắc chắn muốn xóa chuyến bay này?');" class="flex-1 bg-red-50 text-red-600 text-center font-bold py-2 rounded-lg hover:bg-red-100 transition text-sm">Xóa</a>
                             </div>
                         </div>
                     </div>
@@ -181,4 +181,4 @@
 	    });
     </script>
 </body>
-</html>
+</html> 

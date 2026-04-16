@@ -3,7 +3,7 @@ package model;
 import java.sql.Timestamp;
 
 public class Flight {
-	private String flightId;
+    private String flightId;
     private String airlineName;
     private String departureAirport;
     private String destinationAirport;  
@@ -31,6 +31,20 @@ public class Flight {
         this.destinationAirportName = cleanAirportName(destinationAirportName);
     }
 
+    public Flight(String flightId, String airlineName, String departureAirport, 
+              String destinationAirport, Timestamp departureTime, 
+              Timestamp arrivalTime, double price, int availableSeats) {
+            this.flightId = flightId;
+            this.airlineName = airlineName;
+            this.departureAirport = departureAirport;
+            this.destinationAirport = destinationAirport;
+            this.departureTime = departureTime;
+            this.arrivalTime = arrivalTime;
+            this.price = price;
+            this.availableSeats = availableSeats;
+}
+
+    
     // --- CÁC HÀM GETTER VÀ SETTER ---
     public String getFlightId() { return flightId; }
     public void setFlightId(String flightId) { this.flightId = flightId; }

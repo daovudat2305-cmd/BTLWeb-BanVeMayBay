@@ -97,4 +97,40 @@ public class UserDAO {
 		}
 		return null;
 	}
+        // tạo tại khoản admin
+        public static boolean createAdminUser(String username, String email, String plainPassword, String fullName) {
+		// 1. Kiểm tra xem username hoặc email đã bị người khác dùng chưa
+		if (checkUsernameExist(username)) {
+			System.out.println("Tạo Admin thất bại: Username đã tồn tại.");
+			return false;
+		}
+		if (checkEmailExist(email)) {
+			System.out.println("Tạo Admin thất bại: Email đã tồn tại.");
+			return false;
+		}
+
+		// 2. Câu lệnh SQL gán cứng role là 'ADMIN' (hoặc tuỳ theo quy ước DB của bạn)
+		String sql = "INSERT INTO User(username, email, password, fullName, role) VALUES (?, ?, ?, ?, 'ADMIN')";
+		
+		// 3. Băm mật khẩu an toàn qua PasswordUtil
+		String hashedPassword = PasswordUtil.hashPassword(plainPassword);
+		
+		try (Connection conn = DBConnection.getConnection();
+			 PreparedStatement ps = conn.prepareStatement(sql)) {
+			
+			ps.setString(1, username);
+			ps.setString(2, email);
+			ps.setString(3, hashedPassword);
+			ps.setString(4, fullName);
+			
+			int rowsAffected = ps.executeUpdate();
+			return rowsAffected > 0;
+			
+		} catch (SQLException e) {
+			System.out.println("Lỗi SQL khi tạo Admin: " + e.getMessage());
+			e.printStackTrace();
+		}
+		return false;
+	}
+        
 }

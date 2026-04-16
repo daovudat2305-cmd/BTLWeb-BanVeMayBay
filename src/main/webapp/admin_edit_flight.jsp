@@ -41,7 +41,7 @@
                 <div>
                     <div class="text-blue-300 font-bold text-xs uppercase tracking-widest mb-2">Hệ thống quản trị</div>
                     <h2 class="text-3xl font-bold flex items-center gap-3">
-                        Sửa chuyến bay <span class="text-yellow-400">#VJ-101</span>
+                        Sửa chuyến bay <span class="text-yellow-400">#${f.flightId}</span>
                     </h2>
                 </div>
                 <a href="adminFlights" class="bg-white/10 hover:bg-white/20 text-white font-bold py-3 px-6 rounded-xl transition border border-white/20 flex items-center gap-2 text-sm">
@@ -52,21 +52,21 @@
 
         <div class="px-8 -mt-6 pb-12">
             <form action="EditFlightServlet" method="POST" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                <input type="hidden" name="flightId" value="1">
+                <input type="hidden" name="flightId" value="${f.flightId}">
                 
                 <div class="p-8 space-y-8">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="space-y-2">
                             <label class="text-[11px] font-bold text-black uppercase tracking-widest ml-1">Hãng hàng không</label>
                             <select name="airline" class="w-full px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none font-bold transition bg-gray-50 text-gray-800">
-                                <option value="Vietjet Air" selected>Vietjet Air</option>
-                                <option value="Vietnam Airlines">Vietnam Airlines</option>
-                                <option value="Bamboo Airways">Bamboo Airways</option>
+                                <option value="Vietjet Air" ${f.airlineName == 'Vietjet Air' ? 'selected' : ''}>Vietjet Air</option>
+                                <option value="Vietnam Airlines" ${f.airlineName == 'Vietnam Airlines' ? 'selected' : ''}>Vietnam Airlines</option>
+                                <option value="Bamboo Airways" ${f.airlineName == 'Bamboo Airways' ? 'selected' : ''}>Bamboo Airways</option>
                             </select>
                         </div>
                         <div class="space-y-2">
                             <label class="text-[11px] font-bold text-black uppercase tracking-widest ml-1">Số hiệu chuyến bay</label>
-                            <input type="text" name="flightNumber" value="VJ-101" class="w-full px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none font-bold transition text-gray-800">
+                            <input type="text" name="flightNumber" value="${f.flightId}" class="w-full px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none font-bold transition text-gray-800">
                         </div>
                     </div>
 
@@ -78,22 +78,22 @@
                         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 bg-blue-50/50 p-5 rounded-2xl border border-blue-100 shadow-sm">
                             <div class="md:col-span-3 space-y-1">
                                 <label class="text-[11px] font-bold text-black uppercase ml-1">Tên sân bay đi</label>
-                                <input type="text" name="depName" value="Sân bay Quốc tế Nội Bài" class="w-full px-4 py-2.5 rounded-lg border border-blue-200 focus:ring-2 focus:ring-blue-500 outline-none font-bold transition text-gray-800">
+                                <input type="text" name="depName" value="${ad.airportName}" class="w-full px-4 py-2.5 rounded-lg border border-blue-200 focus:ring-2 focus:ring-blue-500 outline-none font-bold transition text-gray-800">
                             </div>
                             <div class="md:col-span-1 space-y-1">
                                 <label class="text-[11px] font-bold text-black uppercase">Mã sân bay</label>
-                                <input type="text" name="depCode" value="HAN" class="w-full px-4 py-2.5 rounded-lg border border-blue-200 focus:ring-2 focus:ring-blue-500 outline-none font-bold text-center uppercase text-blue-800 transition">
+                                <input type="text" name="depCode" value="${f.departureAirport}" class="w-full px-4 py-2.5 rounded-lg border border-blue-200 focus:ring-2 focus:ring-blue-500 outline-none font-bold text-center uppercase text-blue-800 transition">
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 bg-orange-50/50 p-5 rounded-2xl border border-orange-100 shadow-sm">
                             <div class="md:col-span-3 space-y-1">
                                 <label class="text-[11px] font-bold text-black uppercase ml-1">Tên sân bay đến</label>
-                                <input type="text" name="destName" value="Sân bay Quốc tế Đà Nẵng" class="w-full px-4 py-2.5 rounded-lg border border-orange-200 focus:ring-2 focus:ring-orange-500 outline-none font-bold transition text-gray-800">
+                                <input type="text" name="destName" value="${ade.airportName}" class="w-full px-4 py-2.5 rounded-lg border border-orange-200 focus:ring-2 focus:ring-orange-500 outline-none font-bold transition text-gray-800">
                             </div>
                             <div class="md:col-span-1 space-y-1">
                                 <label class="text-[11px] font-bold text-black uppercase">Mã sân bay</label>
-                                <input type="text" name="destCode" value="DAD" class="w-full px-4 py-2.5 rounded-lg border border-orange-200 focus:ring-2 focus:ring-orange-500 outline-none font-bold text-center uppercase text-orange-600 transition">
+                                <input type="text" name="destCode" value="${f.destinationAirport}" class="w-full px-4 py-2.5 rounded-lg border border-orange-200 focus:ring-2 focus:ring-orange-500 outline-none font-bold text-center uppercase text-orange-600 transition">
                             </div>
                         </div>
                     </div>
@@ -101,15 +101,15 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div class="space-y-2">
                             <label class="text-[11px] font-bold text-black uppercase tracking-widest ml-1">Ngày & Giờ đi</label>
-                            <input type="datetime-local" name="departureTime" value="2026-04-10T08:30" class="w-full px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none font-bold transition text-gray-800">
+                            <input type="datetime-local" name="departureTime" value="${f.departureTime}" class="w-full px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none font-bold transition text-gray-800">
                         </div>
                         <div class="space-y-2">
                             <label class="text-[11px] font-bold text-black uppercase tracking-widest ml-1">Giá vé (VNĐ)</label>
-                            <input type="number" name="price" value="1200000" class="w-full px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none font-bold text-orange-600 transition">
+                            <input type="number" name="price" value="${f.price}" class="w-full px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none font-bold text-orange-600 transition">
                         </div>
                         <div class="space-y-2">
                             <label class="text-[11px] font-bold text-black uppercase tracking-widest ml-1">Tổng số ghế</label>
-                            <input type="number" name="totalSeats" value="180" class="w-full px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none font-bold transition text-gray-800">
+                            <input type="number" name="totalSeats" value="${f.availableSeats}" class="w-full px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none font-bold transition text-gray-800">
                         </div>
                     </div>
                 </div>
