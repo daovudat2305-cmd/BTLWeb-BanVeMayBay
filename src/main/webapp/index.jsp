@@ -19,9 +19,9 @@
                 <i class="fa-solid fa-plane-departure"></i> Vé Máy Bay
             </div>
             <div class="hidden md:flex space-x-6 font-medium items-center">
-                <a href="index.jsp" class="text-blue-600 border-b-2 border-blue-600 pb-1">Trang Chủ</a>
+                <a href="home" class="text-blue-600 border-b-2 border-blue-600 pb-1">Trang Chủ</a>
                 <a href="#" class="text-gray-600 hover:text-blue-600">Săn Vé Rẻ</a>
-                <a href="history.jsp" class="text-gray-600 hover:text-blue-600 flex items-center gap-1">
+                <a href="history" class="text-gray-600 hover:text-blue-600 flex items-center gap-1">
                     <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đặt vé
                 </a>
             </div>

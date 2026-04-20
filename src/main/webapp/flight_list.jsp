@@ -20,9 +20,9 @@
                 <i class="fa-solid fa-plane-departure"></i> Vé Máy Bay
             </div>
             <div class="hidden md:flex space-x-6 font-medium items-center">
-                <a href="index.jsp" class="text-gray-600 hover:text-blue-600">Trang Chủ</a>
+                <a href="home" class="text-gray-600 hover:text-blue-600">Trang Chủ</a>
                 <a href="#" class="text-gray-600 hover:text-blue-600">Săn Vé Rẻ</a>
-                <a href="history.jsp" class="text-gray-600 hover:text-blue-600 flex items-center gap-1">
+                <a href="history" class="text-gray-600 hover:text-blue-600 flex items-center gap-1">
                     <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đặt vé
                 </a>
             </div>
@@ -62,7 +62,7 @@
                 </c:if>
                 <div class="flex items-center gap-2"><i class="fa-solid fa-user"></i> 1 Hành khách</div>
             </div>
-            <a href="index.jsp" class="inline-block mt-4 md:mt-0 bg-white text-blue-800 px-4 py-2 rounded font-bold text-sm hover:bg-gray-100 transition text-center">
+            <a href="home" class="inline-block mt-4 md:mt-0 bg-white text-blue-800 px-4 py-2 rounded font-bold text-sm hover:bg-gray-100 transition text-center">
                 Đổi tìm kiếm
             </a>
         </div>
@@ -147,7 +147,9 @@
                                 </div>
                             </div>
                             <div class="text-center">
-                                <div class="text-xl font-bold text-gray-400">--:--</div>
+                                <div class="text-xl font-bold text-gray-900">
+                                    <fmt:formatDate pattern="HH:mm" value="${f.arrivalTime}" />
+                                </div>
                                 <div class="text-sm text-gray-500 font-bold">${f.destinationAirport}</div>
                             </div>
                         </div>
@@ -156,8 +158,7 @@
                             <div class="text-2xl font-black text-orange-600 mb-2">
                                 <fmt:formatNumber value="${f.price}" type="number" pattern="###,###"/> đ
                             </div>
-                            <div class="text-xs text-gray-500 mb-3">/khách</div>
-                            <a href="BookTicketServlet?id=${f.flightId}" class="w-full bg-orange-500 hover:bg-orange-600 text-white text-center font-bold py-2 px-4 rounded transition">
+                            <a href="booking?id=${f.flightId}" class="w-full bg-orange-500 hover:bg-orange-600 text-white text-center font-bold py-2 px-4 rounded transition">
                                 Chọn vé
                             </a>
                         </div>
@@ -198,7 +199,9 @@
                                     </div>
                                 </div>
                                 <div class="text-center">
-                                    <div class="text-xl font-bold text-gray-400">--:--</div>
+                                    <div class="text-xl font-bold text-gray-900">
+                                        <fmt:formatDate pattern="HH:mm" value="${f.arrivalTime}" />
+                                    </div>
                                     <div class="text-sm text-gray-500 font-bold">${f.destinationAirport}</div>
                                 </div>
                             </div>
@@ -207,8 +210,7 @@
                                 <div class="text-2xl font-black text-orange-600 mb-2">
                                     <fmt:formatNumber value="${f.price}" type="number" pattern="###,###"/> đ
                                 </div>
-                                <div class="text-xs text-gray-500 mb-3">/khách</div>
-                                <a href="BookTicketServlet?id=${f.flightId}" class="w-full bg-orange-500 hover:bg-orange-600 text-white text-center font-bold py-2 px-4 rounded transition shadow-md shadow-orange-200">
+                                <a href="booking?id=${f.flightId}" class="w-full bg-orange-500 hover:bg-orange-600 text-white text-center font-bold py-2 px-4 rounded transition shadow-md shadow-orange-200">
                                     Chọn vé
                                 </a>
                             </div>
