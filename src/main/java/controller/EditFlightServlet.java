@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package controller;
 
 import dao.AirportDAO;
@@ -10,7 +6,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,12 +15,27 @@ import javax.servlet.http.HttpServletResponse;
 import model.Airport;
 import model.Flight;
 
-/**
- *
- * @author phant
- */
 @WebServlet(urlPatterns = {"/EditFlightServlet"})
-public class EditFlightServlet extends HttpServlet{
+public class EditFlightServlet extends HttpServlet {
+    
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+        throws ServletException, IOException {
+        // 1. Lấy flightId từ URL (?id=QH-5003)
+        String id = request.getParameter("id");
+        // 2. Lấy thông tin chuyến bay hiện tại
+        FlightDAO flightDao = new FlightDAO();
+        Flight flight = flightDao.getFlightById(id);
+        // 3. Lấy TẤT CẢ danh sách sân bay để đổ vào Dropdown
+        AirportDAO airportDao = new AirportDAO();
+        List<Airport> listA = airportDao.getAllAirports();
+        // 4. Đẩy dữ liệu sang JSP
+        request.setAttribute("f", flight);
+        request.setAttribute("listA", listA); // Dòng này giúp Dropdown có dữ liệu
+        // 5. Chuyển tiếp sang trang JSP
+        request.getRequestDispatcher("admin_edit_flight.jsp").forward(request, response);
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -32,60 +43,44 @@ public class EditFlightServlet extends HttpServlet{
         request.setCharacterEncoding("UTF-8");
 
         try {
-            //lấy mã chuyến bay
-            String flightId = request.getParameter("flightId"); 
+            // 1. Lấy ID cũ (để tìm dòng cần sửa) và ID mới
+            String oldFlightId = request.getParameter("oldFlightId"); 
+            String newFlightId = request.getParameter("newFlightId"); 
             
+            // 2. Lấy dữ liệu từ các Dropdown mới thêm
+            String airlineName = request.getParameter("airlineName");
+            String departureAirport = request.getParameter("departureAirport");
+            String destinationAirport = request.getParameter("destinationAirport");
+            
+            // 3. Lấy các dữ liệu còn lại
             String departureTimeStr = request.getParameter("departureTime"); 
             double price = Double.parseDouble(request.getParameter("price"));
             int totalSeats = Integer.parseInt(request.getParameter("totalSeats"));
             
-            // Xử lý chuyển đổi từ thẻ <input type="datetime-local"> sang Timestamp SQL
+            // 4. Xử lý thời gian (Cộng 2 tiếng cho giờ đến)
             LocalDateTime departureDateTime = LocalDateTime.parse(departureTimeStr);
             Timestamp departureTime = Timestamp.valueOf(departureDateTime);
-            
-            // LOGIC TỰ ĐỘNG CỘNG 2 TIẾNG
-            LocalDateTime arrivalDateTime = departureDateTime.plusHours(2); 
-            Timestamp arrivalTime = Timestamp.valueOf(arrivalDateTime);
+            Timestamp arrivalTime = Timestamp.valueOf(departureDateTime.plusHours(2)); 
 
-            // Gọi DAO
+            // 5. Đóng gói dữ liệu vào Object Flight
+            Flight updatedFlight = new Flight(newFlightId, airlineName, departureAirport, 
+                                              destinationAirport, departureTime, arrivalTime, 
+                                              price, totalSeats);
+
+            // 6. Gọi DAO thực hiện UPDATE
             FlightDAO dao = new FlightDAO();
-            boolean success = dao.updateFlight(flightId, departureTime, arrivalTime, price, totalSeats);
+            // Lưu ý: Dùng updateFlightFull để sửa được cả mã chuyến bay, hãng, sân bay
+            boolean success = dao.updateFlightFull(oldFlightId, updatedFlight);
 
             if (success) {
                 response.sendRedirect("adminFlights?msg=update_success");
             } else {
-                response.getWriter().println("Cập nhật thất bại. Vui lòng kiểm tra lại ID chuyến bay!");
+                response.getWriter().println("Cập nhật thất bại. Có thể mã chuyến bay mới đã bị trùng!");
             }
             
         } catch (Exception e) {
             e.printStackTrace();
             response.getWriter().println("Lỗi dữ liệu đầu vào: " + e.getMessage());
-        }
-    }
-    
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
-        throws ServletException, IOException {
-    
-        try {
-            // 1. Lấy flightId từ URL (?id=QH-5003)
-            String id = request.getParameter("id");
-            
-            // 2. Gọi DAO để lấy toàn bộ thông tin chuyến bay từ DB
-            FlightDAO dao = new FlightDAO();
-            Flight flight = dao.getFlightById(id);
-            AirportDAO Dao = new AirportDAO();
-            Airport airportDi = Dao.getAirport(flight.getDepartureAirport());
-            Airport airportDen = Dao.getAirport(flight.getDestinationAirport());
-            // 3. Đặt đối tượng flight vào "yêu cầu" để JSP có thể đọc được
-            request.setAttribute("f", flight);
-            request.setAttribute("ad", airportDi);
-            request.setAttribute("ade", airportDen);
-
-            // 4. MỞ TRANG JSP (Chuyển tiếp yêu cầu và dữ liệu)
-            request.getRequestDispatcher("admin_edit_flight.jsp").forward(request, response);
-        } catch (SQLException ex) {
-            System.getLogger(EditFlightServlet.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
     }
 }
