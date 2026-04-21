@@ -24,6 +24,9 @@
             <a href="adminFlights" class="flex items-center gap-3 py-3 px-4 rounded-xl hover:bg-blue-700 transition text-blue-100 hover:text-white font-medium">
                 <i class="fa-solid fa-plane w-5"></i> Quản lý chuyến bay
             </a>
+            <a href="adminCompletedFlights" class="flex items-center gap-3 py-3 px-4 rounded-xl hover:bg-blue-700 transition text-blue-100 hover:text-white font-medium">
+                <i class="fa-solid fa-file-invoice-dollar w-5"></i> Chuyến bay hoàn thành
+            </a>
             <a href="adminBookings" class="flex items-center gap-3 py-3 px-4 rounded-xl bg-blue-700 font-bold shadow-lg shadow-blue-900/20">
                 <i class="fa-solid fa-users w-5"></i> Danh sách đặt vé
             </a>

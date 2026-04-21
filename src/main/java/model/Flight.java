@@ -42,7 +42,7 @@ public class Flight {
             this.arrivalTime = arrivalTime;
             this.price = price;
             this.availableSeats = availableSeats;
-}
+    }
 
     
     // --- CÁC HÀM GETTER VÀ SETTER ---
