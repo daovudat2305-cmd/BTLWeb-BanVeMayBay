@@ -21,23 +21,33 @@ import model.Flight;
 @WebServlet(name = "SearchFlightServlet", urlPatterns = {"/SearchFlightServlet"})
 public class UserSearchFlightServlet extends HttpServlet{
     @Override
-protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-    
-    String depCode = request.getParameter("depCode");
-    String destCode = request.getParameter("destCode");
-    
-    String[] selectedAirlines = request.getParameterValues("airline");
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	        throws ServletException, IOException {
+	    
+    	// 1. Lấy Điểm đi, Điểm đến
+        String depCode = request.getParameter("depCode");
+        String destCode = request.getParameter("destCode");
+        
+        // 2. Lấy thêm Ngày và Giờ
+        String departDate = request.getParameter("departDate");
+        String departTime = request.getParameter("departTime");
+        
+        // 3. Lấy mảng Hãng hàng không
+        String[] selectedAirlines = request.getParameterValues("airline");
 
-    FlightDAO dao = new FlightDAO();
-    List<Flight> list = dao.searchWithFilter(depCode, destCode, selectedAirlines);
+        // 4. Gọi DAO (Truyền 5 tham số)
+        FlightDAO dao = new FlightDAO();
+        List<Flight> list = dao.searchWithFilter(depCode, destCode, departDate, departTime, selectedAirlines);
 
- 
-    request.setAttribute("outboundList", list);
-    
-    request.setAttribute("oldDep", depCode);
-    request.setAttribute("oldDest", destCode);
-    request.setAttribute("selectedAirlines", selectedAirlines); 
-    request.getRequestDispatcher("flight_list.jsp").forward(request, response);
+        // 5. Đẩy kết quả và thông tin cũ lên Request
+        request.setAttribute("outboundList", list);
+        
+        request.setAttribute("oldDep", depCode);
+        request.setAttribute("oldDest", destCode);
+        request.setAttribute("oldDepDate", departDate);
+        request.setAttribute("oldDepTime", departTime);
+        request.setAttribute("selectedAirlines", selectedAirlines); 
+        
+        request.getRequestDispatcher("flight_list.jsp").forward(request, response);
     }
 }

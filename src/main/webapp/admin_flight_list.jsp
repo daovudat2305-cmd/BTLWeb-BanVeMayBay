@@ -20,13 +20,13 @@
             <i class="fa-solid fa-plane-departure"></i> Vé Máy Bay
         </div>  
         <nav class="flex-grow p-4 space-y-2 mt-4">
-            <a href="admin_dashboard.jsp" class="flex items-center gap-3 py-3 px-4 rounded-xl hover:bg-blue-700 transition text-blue-100 hover:text-white font-medium">
+            <a href="adminDashboard" class="flex items-center gap-3 py-3 px-4 rounded-xl hover:bg-blue-700 transition text-blue-100 hover:text-white font-medium">
                 <i class="fa-solid fa-chart-pie w-5"></i> Tổng quan
             </a>
             <a href="adminFlights" class="flex items-center gap-3 py-3 px-4 rounded-xl bg-blue-700 font-bold shadow-lg shadow-blue-900/20">
                 <i class="fa-solid fa-plane w-5"></i> Quản lý chuyến bay
             </a>
-            <a href="admin_customer_list.jsp" class="flex items-center gap-3 py-3 px-4 rounded-xl hover:bg-blue-700 transition text-blue-100 hover:text-white font-medium">
+            <a href="adminBookings" class="flex items-center gap-3 py-3 px-4 rounded-xl hover:bg-blue-700 transition text-blue-100 hover:text-white font-medium">
                 <i class="fa-solid fa-users w-5"></i> Danh sách đặt vé
             </a>
             <a href="logout" class="flex items-center gap-3 py-3 px-4 rounded-xl hover:bg-blue-700 transition text-blue-100 hover:text-white font-medium">
@@ -34,7 +34,7 @@
             </a>
         </nav>
         <div class="p-6 border-t border-blue-700">
-            <a href="index.jsp" class="flex items-center gap-3 py-2 px-4 text-blue-300 hover:text-white transition"> Về trang chủ </a>
+            <a href="home" class="flex items-center gap-3 py-2 px-4 text-blue-300 hover:text-white transition"> Về trang chủ </a>
         </div>
     </aside>
 
@@ -52,7 +52,44 @@
         </div>
 
         <div class="px-8 -mt-6 space-y-4 pb-12">
-
+			<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-6">
+                <form action="adminFlights" method="GET" class="flex flex-col md:flex-row flex-wrap gap-4 items-end m-0">
+                    <div class="flex-1 min-w-[150px]">
+                        <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-1.5 ml-1">Hãng bay</label>
+                        <select name="airline" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none text-sm font-bold text-gray-700 bg-gray-50 cursor-pointer">
+                            <option value="ALL" ${selectedAirline == 'ALL' ? 'selected' : ''}>Tất cả hãng</option>
+                            <option value="Vietjet Air" ${selectedAirline == 'Vietjet Air' ? 'selected' : ''}>Vietjet Air</option>
+                            <option value="Vietnam Airlines" ${selectedAirline == 'Vietnam Airlines' ? 'selected' : ''}>Vietnam Airlines</option>
+                            <option value="Bamboo Airways" ${selectedAirline == 'Bamboo Airways' ? 'selected' : ''}>Bamboo Airways</option>
+                            <option value="Vietravel Airlines" ${selectedAirline == 'Vietravel Airlines' ? 'selected' : ''}>Vietravel Airlines</option>
+                            <option value="Pacific Airlines" ${selectedAirline == 'Pacific Airlines' ? 'selected' : ''}>Pacific Airlines</option>
+                        </select>
+                    </div>
+                    <div class="w-full md:w-32">
+                        <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-1.5 ml-1">Điểm đi</label>
+                        <input type="text" name="dep" value="${selectedDep == 'ALL' ? '' : selectedDep}" placeholder="Mã VD: HAN" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none text-sm font-bold text-gray-700 bg-gray-50 uppercase">
+                    </div>
+                    <div class="w-full md:w-32">
+                        <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-1.5 ml-1">Điểm đến</label>
+                        <input type="text" name="dest" value="${selectedDest == 'ALL' ? '' : selectedDest}" placeholder="Mã VD: SGN" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none text-sm font-bold text-gray-700 bg-gray-50 uppercase">
+                    </div>
+                    <div class="w-full md:w-40">
+                        <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-1.5 ml-1">Ngày bay</label>
+                        <input type="date" name="date" value="${selectedDate}" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none text-sm font-bold text-gray-700 bg-gray-50">
+                    </div>
+                    <div class="w-full md:w-32">
+                        <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-1.5 ml-1">Từ Giờ</label>
+                        <input type="time" name="time" value="${selectedTime}" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none text-sm font-bold text-gray-700 bg-gray-50">
+                    </div>
+                    <div class="w-full md:w-auto flex gap-2 mt-2 md:mt-0">
+                        <a href="adminFlights" class="px-5 py-2.5 rounded-xl font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 transition text-sm flex items-center justify-center">Xóa</a>
+                        <button type="submit" class="px-6 py-2.5 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 transition shadow-md shadow-blue-200 text-sm flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-filter"></i> Lọc
+                        </button>
+                    </div>
+                </form>
+            </div>
+			
             <c:forEach var="f" items="${flightList}">
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition">
                     <div class="flex flex-col md:flex-row justify-between items-center gap-6">
@@ -127,7 +164,7 @@
                 <div class="flex justify-center items-center gap-2 mt-8">
                     
                     <c:if test="${currentPage > 1}">
-                        <a href="adminFlights?page=${currentPage - 1}" class="px-4 py-2 rounded-lg border border-gray-200 bg-white text-gray-600 font-bold hover:bg-blue-50 hover:text-blue-600 transition shadow-sm">
+                        <a href="adminFlights?page=${currentPage - 1}&airline=${selectedAirline}&date=${selectedDate}&time=${selectedTime}&dep=${selectedDep}&dest=${selectedDest}">
                             <i class="fa-solid fa-chevron-left text-xs"></i>
                         </a>
                     </c:if>
@@ -140,7 +177,7 @@
                                 </span>
                             </c:when>
                             <c:otherwise>
-                                <a href="adminFlights?page=${i}" class="px-4 py-2 rounded-lg border border-gray-200 bg-white text-gray-600 font-bold hover:bg-blue-50 hover:text-blue-600 transition shadow-sm">
+                                <a href="adminFlights?page=${i}&airline=${selectedAirline}&date=${selectedDate}&time=${selectedTime}&dep=${selectedDep}&dest=${selectedDest}">
                                     ${i}
                                 </a>
                             </c:otherwise>
@@ -148,7 +185,7 @@
                     </c:forEach>
 
                     <c:if test="${currentPage < totalPages}">
-                        <a href="adminFlights?page=${currentPage + 1}" class="px-4 py-2 rounded-lg border border-gray-200 bg-white text-gray-600 font-bold hover:bg-blue-50 hover:text-blue-600 transition shadow-sm">
+                        <a href="adminFlights?page=${currentPage + 1}&airline=${selectedAirline}&date=${selectedDate}&time=${selectedTime}&dep=${selectedDep}&dest=${selectedDest}">
                             <i class="fa-solid fa-chevron-right text-xs"></i>
                         </a>
                     </c:if>

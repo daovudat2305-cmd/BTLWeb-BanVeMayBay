@@ -20,7 +20,6 @@
             </div>
             <div class="hidden md:flex space-x-6 font-medium items-center">
                 <a href="home" class="text-gray-600 hover:text-blue-600">Trang Chủ</a>
-                <a href="#" class="text-gray-600 hover:text-blue-600">Săn Vé Rẻ</a>
                 <a href="history" class="text-gray-600 hover:text-blue-600 flex items-center gap-1">
                     <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đặt vé
                 </a>
@@ -136,7 +135,7 @@
                         </div>
                     </div>
 
-                    <form action="book-ticket" method="POST" class="border-t border-gray-200 bg-gray-50 px-6 py-6">
+                    <form id="bookingForm" action="book-ticket" method="POST" class="border-t border-gray-200 bg-gray-50 px-6 py-6">
                         <input type="hidden" name="flightId" value="${flight.flightId}">
                         <input type="hidden" name="passengerName" value="${passengerName}">
                         <input type="hidden" name="cccd" value="${cccd}">
@@ -147,7 +146,7 @@
                             <button type="button" onclick="history.back()" class="flex-1 bg-white border border-gray-300 text-gray-700 font-bold py-3 px-6 rounded-xl hover:bg-gray-100 transition">
                                 Quay lại chỉnh sửa
                             </button>
-                            <button type="submit" class="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-xl transition">
+                            <button type="button" onclick="openQRModal()" class="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-xl transition">
                                 Xác nhận đặt vé
                             </button>
                         </div>
@@ -225,6 +224,59 @@
             </div>
         </div>
     </footer>
+	
+	<div id="qrModal" class="fixed inset-0 z-50 hidden bg-gray-900/60 backdrop-blur-sm flex items-center justify-center transition-opacity px-4">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 relative">
+            
+            <button type="button" onclick="closeQRModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
 
+            <div class="text-center mb-4 mt-2">
+                <h3 class="text-xl font-black text-gray-900">Thanh toán vé máy bay</h3>
+                <p class="text-sm text-gray-500 mt-1">Quét mã QR qua ứng dụng ngân hàng</p>
+            </div>
+
+            <img src="https://img.vietqr.io/image/MB-0343649920-compact.png?amount=${flight.price}&addInfo=Thanh toan ve ${flight.flightId} ${passengerName}" class="w-60 mx-auto mb-4">
+
+            <div class="text-center w-full pt-1 border-t border-dashed border-gray-200 mt-1">
+                <span class="block text-[10px] text-gray-500 uppercase font-bold tracking-widest mt-2 mb-1">Tổng tiền thanh toán</span>
+                <span class="text-2xl font-black text-orange-600"><fmt:formatNumber value="${flight.price}" type="number" pattern="###,###" /> đ</span>
+            </div>
+
+            <div class="text-left text-sm mt-3">
+                <p><b>Nội dung:</b> Thanh toan ve ${flight.flightId} ${passengerName}</p>
+            </div>
+            
+            <div class="bg-blue-50 text-blue-700 text-[11px] p-3 rounded-xl mb-5 flex gap-2 items-start border border-blue-100">
+                <i class="fa-solid fa-circle-info text-base mt-0.5 shrink-0"></i>
+                <p class="leading-relaxed">Sau khi chuyển khoản, vui lòng nhấn <strong>"Hoàn thành"</strong>. Vé sẽ được chuyển sang <strong>Chờ xử lý</strong> để duyệt.</p>
+            </div>
+
+            <div class="flex gap-3">
+                <button type="button" onclick="closeQRModal()" class="flex-1 px-4 py-3 rounded-xl font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 transition text-sm">
+                    Hủy bỏ
+                </button>
+                <button type="button" onclick="submitBookingFlow()" class="flex-1 px-4 py-3 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 transition shadow-lg shadow-blue-200 flex items-center justify-center gap-2 text-sm">
+                    <i class="fa-solid fa-check"></i> Hoàn thành
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openQRModal() {
+            document.getElementById('qrModal').classList.remove('hidden');
+        }
+
+        function closeQRModal() {
+            document.getElementById('qrModal').classList.add('hidden');
+        }
+
+        function submitBookingFlow() {
+            // Khi khách hàng bấm "Hoàn thành", submit form ẩn đi để gọi Servlet
+            document.getElementById('bookingForm').submit();
+        }
+    </script>
 </body>
 </html>

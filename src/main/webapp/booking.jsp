@@ -20,7 +20,6 @@
             </div>
             <div class="hidden md:flex space-x-6 font-medium items-center">
                 <a href="home" class="text-gray-600 hover:text-blue-600">Trang Chủ</a>
-                <a href="#" class="text-gray-600 hover:text-blue-600">Săn Vé Rẻ</a>
                 <a href="history" class="text-gray-600 hover:text-blue-600 flex items-center gap-1">
                     <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đặt vé
                 </a>
@@ -123,7 +122,7 @@
                                 </div>
                                 <div class="rounded-2xl border border-orange-100 bg-orange-50 p-4">
                                     <div class="text-xs font-bold uppercase text-orange-600 mb-2">Giá vé</div>
-                                    <div class="text-2xl font-black text-orange-600"><fmt:formatNumber value="${flight.price}" type="number" pattern="###,###" /> đ</div>
+                                    <div class="text-xl font-black text-orange-600"><fmt:formatNumber value="${flight.price}" type="number" pattern="###,###" /> đ</div>
                                 </div>
                             </div>
                         </div>

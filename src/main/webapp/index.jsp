@@ -20,7 +20,6 @@
             </div>
             <div class="hidden md:flex space-x-6 font-medium items-center">
                 <a href="home" class="text-blue-600 border-b-2 border-blue-600 pb-1">Trang Chủ</a>
-                <a href="#" class="text-gray-600 hover:text-blue-600">Săn Vé Rẻ</a>
                 <a href="history" class="text-gray-600 hover:text-blue-600 flex items-center gap-1">
                     <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đặt vé
                 </a>
@@ -39,6 +38,11 @@
                         <i class="fa-solid fa-circle-user text-xl text-blue-600"></i>
                         <span>${user.fullName}</span>
                     </div>
+                    <c:if test="${user.role == 'ADMIN'}">
+                    	<a href="adminDashboard" class="text-gray-400 font-medium hover:text-gray-600 transition flex items-center gap-2">
+	                        <i class="fa-solid fa-right-from-bracket"></i> Về trang quản trị
+	                    </a>
+                    </c:if>
                     <a href="logout" class="text-red-400 font-medium hover:text-red-600 transition flex items-center gap-2">
                         <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
                     </a>
@@ -49,76 +53,88 @@
 
     <main class="flex-grow">
         <div class="bg-[url(./assets/background.jpg)] bg-center bg-no-repeat bg-cover py-20 px-4">
-            <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-2xl p-8">
+            <div class="max-w-6xl mx-auto bg-white rounded-2xl shadow-2xl p-6 md:p-8 mb-16 relative z-10">
                 <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
                     <i class="fa-solid fa-route text-blue-600"></i> Chọn hành trình của bạn
                 </h3>
                 
-                <form action="SearchFlightServlet" method="GET" class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+                <form action="SearchFlightServlet" method="GET" class="flex flex-col lg:flex-row gap-3 items-end w-full">
                     
-                    <div class="relative">
-                        <label class="block text-xs font-bold text-gray-500 uppercase mb-2 ml-1">Điểm đi</label>
+                    <div class="relative w-full lg:w-[28%]">
+                        <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1.5 ml-1">Điểm đi</label>
                         <div class="relative">
-                            <i class="fa-solid fa-plane-departure absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
-                            <select name="depCode" class="w-full pl-14 pr-10 py-3.5 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 font-bold text-gray-700 appearance-none bg-white cursor-pointer shadow-sm">
-                                <option value="HAN">Sân bay Quốc tế Nội Bài (Hà Nội)</option>
-                                <option value="SGN">Sân bay Quốc tế Tân Sơn Nhất (TP.HCM)</option>
-                                <option value="DAD">Sân bay Quốc tế Đà Nẵng</option>
-                                <option value="BMV">Sân bay Buôn Ma Thuột</option>
-                                <option value="CAH">Sân bay Cà Mau</option>
-                                <option value="CXR">Sân bay Cam Ranh</option>
-                                <option value="DIN">Sân bay Điện Biên</option>
-                                <option value="DLI">Sân bay Liên Khương</option>
-                                <option value="HPH">Sân bay Quốc tế Cát Bi</option>
-                                <option value="HUI">Sân bay Phú Bài</option>
-                                <option value="PQC">Sân bay Phú Quốc</option>
-                                <option value="PXU">Sân bay Pleiku</option>
-                                <option value="TBB">Sân bay Tuy Hòa</option>
-                                <option value="THD">Sân bay Thọ Xuân</option>
-                                <option value="UIH">Sân bay Phù Cát</option>
-                                <option value="VCA">Sân bay Quốc tế Cần Thơ</option>
-                                <option value="VCL">Sân bay Chu Lai</option>
-                                <option value="VCS">Sân bay Côn Đảo</option>
-                                <option value="VDO">Sân bay Quốc tế Vân Đồn</option>
-                                <option value="VKG">Sân bay Rạch Giá</option>
+                            <i class="fa-solid fa-plane-departure absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm pointer-events-none"></i>
+                            <select name="depCode" class="w-full pl-9 pr-7 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-sm font-bold text-gray-700 appearance-none bg-white cursor-pointer shadow-sm truncate">
+                                <option value="HAN">Nội Bài (Hà Nội)</option>
+                                <option value="SGN">Tân Sơn Nhất (TP.HCM)</option>
+                                <option value="DAD">Đà Nẵng</option>
+                                <option value="BMV">Buôn Ma Thuột</option>
+                                <option value="CAH">Cà Mau</option>
+                                <option value="CXR">Cam Ranh</option>
+                                <option value="DIN">Điện Biên</option>
+                                <option value="DLI">Liên Khương</option>
+                                <option value="HPH">Cát Bi</option>
+                                <option value="HUI">Phú Bài</option>
+                                <option value="PQC">Phú Quốc</option>
+                                <option value="PXU">Pleiku</option>
+                                <option value="TBB">Tuy Hòa</option>
+                                <option value="THD">Thọ Xuân</option>
+                                <option value="UIH">Phù Cát</option>
+                                <option value="VCA">Cần Thơ</option>
+                                <option value="VCL">Chu Lai</option>
+                                <option value="VCS">Côn Đảo</option>
+                                <option value="VDO">Vân Đồn</option>
+                                <option value="VKG">Rạch Giá</option>
                             </select>
-                            <i class="fa-solid fa-chevron-down absolute right-4  top-1/2 -translate-y-1/2 text-gray-300 pointer-events-none text-xs"></i>
+                            <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-gray-300 pointer-events-none text-xs"></i>
                         </div>
                     </div>
 
-                    <div class="relative">
-                        <label class="block text-xs font-bold text-gray-500 uppercase mb-2 ml-1">Điểm đến</label>
+                    <div class="relative w-full lg:w-[28%]">
+                        <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1.5 ml-1">Điểm đến</label>
                         <div class="relative">
-                            <i class="fa-solid fa-plane-departure absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
-                            <select name="destCode" class="w-full pl-14 pr-10 py-3.5 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 font-bold text-gray-700 appearance-none bg-white cursor-pointer shadow-sm">
-                                <option value="SGN">Sân bay Quốc tế Tân Sơn Nhất (TP.HCM)</option>
-                                <option value="HAN">Sân bay Quốc tế Nội Bài (Hà Nội)</option>
-                                <option value="DAD">Sân bay Quốc tế Đà Nẵng</option>
-                                <option value="BMV">Sân bay Buôn Ma Thuột</option>
-                                <option value="CAH">Sân bay Cà Mau</option>
-                                <option value="CXR">Sân bay Cam Ranh</option>
-                                <option value="DIN">Sân bay Điện Biên</option>
-                                <option value="DLI">Sân bay Liên Khương</option>
-                                <option value="HPH">Sân bay Quốc tế Cát Bi</option>
-                                <option value="HUI">Sân bay Phú Bài</option>
-                                <option value="PQC">Sân bay Phú Quốc</option>
-                                <option value="PXU">Sân bay Pleiku</option>
-                                <option value="TBB">Sân bay Tuy Hòa</option>
-                                <option value="THD">Sân bay Thọ Xuân</option>
-                                <option value="UIH">Sân bay Phù Cát</option>
-                                <option value="VCA">Sân bay Quốc tế Cần Thơ</option>
-                                <option value="VCL">Sân bay Chu Lai</option>
-                                <option value="VCS">Sân bay Côn Đảo</option>
-                                <option value="VDO">Sân bay Quốc tế Vân Đồn</option>
-                                <option value="VKG">Sân bay Rạch Giá</option>
+                            <i class="fa-solid fa-plane-arrival absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm pointer-events-none"></i>
+                            <select name="destCode" class="w-full pl-9 pr-7 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-sm font-bold text-gray-700 appearance-none bg-white cursor-pointer shadow-sm truncate">
+                                <option value="SGN">Tân Sơn Nhất (TP.HCM)</option>
+                                <option value="HAN">Nội Bài (Hà Nội)</option>
+                                <option value="DAD">Đà Nẵng</option>
+                                <option value="BMV">Buôn Ma Thuột</option>
+                                <option value="CAH">Cà Mau</option>
+                                <option value="CXR">Cam Ranh</option>
+                                <option value="DIN">Điện Biên</option>
+                                <option value="DLI">Liên Khương</option>
+                                <option value="HPH">Cát Bi</option>
+                                <option value="HUI">Phú Bài</option>
+                                <option value="PQC">Phú Quốc</option>
+                                <option value="PXU">Pleiku</option>
+                                <option value="TBB">Tuy Hòa</option>
+                                <option value="THD">Thọ Xuân</option>
+                                <option value="UIH">Phù Cát</option>
+                                <option value="VCA">Cần Thơ</option>
+                                <option value="VCL">Chu Lai</option>
+                                <option value="VCS">Côn Đảo</option>
+                                <option value="VDO">Vân Đồn</option>
+                                <option value="VKG">Rạch Giá</option>
                             </select>
-                            <i class="fa-solid fa-chevron-down absolute right-4 top-4 text-gray-300 pointer-events-none text-xs"></i>
+                            <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-gray-300 pointer-events-none text-xs"></i>
                         </div>
                     </div>
+					
+                    <div class="w-full lg:w-[17%]">
+                        <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1.5 ml-1">Ngày khởi hành</label>
+                        <input type="date" name="departDate" class="w-full px-3 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-sm font-bold text-gray-700 bg-white">
+                    </div>
 
-                    <button type="submit" class="bg-[#f97316] text-white font-bold py-3.5 rounded-xl hover:bg-orange-600 transition flex justify-center items-center gap-3 shadow-lg shadow-orange-200 uppercase tracking-wider text-sm">
-                        <i class="fa-solid fa-magnifying-glass"></i> Tìm chuyến bay
-                    </button>
+                    <div class="w-full lg:w-[12%]">
+                        <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1.5 ml-1">Giờ khởi hành</label>
+                        <input type="time" name="departTime" lang="en-GB" class="w-full px-3 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-sm font-bold text-gray-700 bg-white">
+                    </div>
+					
+                    <div class="w-full lg:w-[15%]">
+                        <button type="submit" class="w-full h-[46px] bg-[#f97316] text-white font-bold rounded-xl hover:bg-orange-600 transition flex justify-center items-center gap-2 shadow-lg shadow-orange-200 uppercase tracking-wider text-xs">
+                            <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>

@@ -12,7 +12,6 @@ public class Booking {
     private String email;
     private Timestamp bookingTime;
     private String status;
-    private String returnFlightId;
     private Flight flight;
 
     public String getBookingId() {
@@ -85,14 +84,6 @@ public class Booking {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getReturnFlightId() {
-        return returnFlightId;
-    }
-
-    public void setReturnFlightId(String returnFlightId) {
-        this.returnFlightId = returnFlightId;
     }
 
     public Flight getFlight() {

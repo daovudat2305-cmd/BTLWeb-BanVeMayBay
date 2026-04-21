@@ -21,9 +21,8 @@ public class AddFlightServlet extends HttpServlet{
 		try {
             // 1. Lấy dữ liệu trực tiếp từ các trường input trong Form
             String airlineName = req.getParameter("airline");
-            String flightId = req.getParameter("flightNumber");
             
-            // Ở phiên bản mới, ta CHỈ CẦN LẤY MÃ (depCode, destCode), bỏ qua tên dài
+            // lấy mã chuyến bay
             String departureAirport = req.getParameter("depCode");
             String destinationAirport = req.getParameter("destCode");
             
@@ -39,12 +38,14 @@ public class AddFlightServlet extends HttpServlet{
             LocalDateTime departureDateTime = LocalDateTime.parse(departureTimeStr);
             Timestamp departureTime = Timestamp.valueOf(departureDateTime);
             
-         // LOGIC TỰ ĐỘNG CỘNG 2 TIẾNG
+            // LOGIC TỰ ĐỘNG CỘNG 2 TIẾNG
             LocalDateTime arrivalDateTime = departureDateTime.plusHours(2); 
             Timestamp arrivalTime = Timestamp.valueOf(arrivalDateTime);
             
             // 3. Gọi DAO để thực hiện lệnh INSERT
             FlightDAO flightDAO = new FlightDAO();
+            //sinh mã chuyến bay
+            String flightId = flightDAO.generateUniqueFlightId(airlineName);
             boolean isSuccess = flightDAO.insertFlight(flightId, airlineName, departureAirport, destinationAirport, departureTime, arrivalTime, price, availableSeats);
             
             // 4. Kiểm tra kết quả và chuyển trang

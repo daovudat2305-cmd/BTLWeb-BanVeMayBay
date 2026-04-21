@@ -19,13 +19,13 @@
             <i class="fa-solid fa-plane-departure"></i> Vé Máy Bay
         </div>  
         <nav class="flex-grow p-4 space-y-2 mt-4">
-            <a href="admin_dashboard.jsp" class="flex items-center gap-3 py-3 px-4 rounded-xl hover:bg-blue-700 transition text-blue-100 hover:text-white font-medium">
+            <a href="adminDashboard" class="flex items-center gap-3 py-3 px-4 rounded-xl hover:bg-blue-700 transition text-blue-100 hover:text-white font-medium">
                 <i class="fa-solid fa-chart-pie w-5"></i> Tổng quan
             </a>
             <a href="adminFlights" class="flex items-center gap-3 py-3 px-4 rounded-xl bg-blue-700 font-bold shadow-lg shadow-blue-900/20">
                 <i class="fa-solid fa-plane w-5"></i> Quản lý chuyến bay
             </a>
-            <a href="admin_customer_list.jsp" class="flex items-center gap-3 py-3 px-4 rounded-xl hover:bg-blue-700 transition text-blue-100 hover:text-white font-medium">
+            <a href="adminBookings" class="flex items-center gap-3 py-3 px-4 rounded-xl hover:bg-blue-700 transition text-blue-100 hover:text-white font-medium">
                 <i class="fa-solid fa-users w-5"></i> Danh sách đặt vé
             </a>
             <a href="logout" class="flex items-center gap-3 py-3 px-4 rounded-xl hover:bg-blue-700 transition text-blue-100 hover:text-white font-medium">
@@ -33,7 +33,7 @@
             </a>
         </nav>
         <div class="p-6 border-t border-blue-700">
-            <a href="index.jsp" class="flex items-center gap-3 py-2 px-4 text-blue-300 hover:text-white transition font-medium"> Về trang chủ </a>
+            <a href="home" class="flex items-center gap-3 py-2 px-4 text-blue-300 hover:text-white transition font-medium"> Về trang chủ </a>
         </div>
     </aside>
 
@@ -67,7 +67,7 @@
                         </div>
                         <div class="space-y-2">
                             <label class="text-[11px] font-bold text-black uppercase tracking-widest ml-1">Số hiệu chuyến bay</label>
-                            <input type="text" name="flightNumber" placeholder="VJ-101" class="w-full px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none font-bold transition text-gray-800">
+                            <input type="text" disabled name="flightNumber" placeholder="VJ-101" class="w-full px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none font-bold transition text-gray-800">
                         </div>
                     </div>
 

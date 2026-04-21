@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -17,13 +18,13 @@
             <i class="fa-solid fa-plane-departure"></i> Vé Máy Bay
         </div>  
         <nav class="flex-grow p-4 space-y-2 mt-4">
-            <a href="admin_dashboard.jsp" class="flex items-center gap-3 py-3 px-4 rounded-xl bg-blue-700 font-bold shadow-lg shadow-blue-900/20">
+            <a href="adminDashboard" class="flex items-center gap-3 py-3 px-4 rounded-xl bg-blue-700 font-bold shadow-lg shadow-blue-900/20">
                 <i class="fa-solid fa-chart-pie w-5"></i> Tổng quan
             </a>
             <a href="adminFlights" class="flex items-center gap-3 py-3 px-4 rounded-xl hover:bg-blue-700 transition text-blue-100 hover:text-white font-medium">
                 <i class="fa-solid fa-plane w-5"></i> Quản lý chuyến bay
             </a>
-            <a href="admin_customer_list.jsp" class="flex items-center gap-3 py-3 px-4 rounded-xl hover:bg-blue-700 transition text-blue-100 hover:text-white font-medium">
+            <a href="adminBookings" class="flex items-center gap-3 py-3 px-4 rounded-xl hover:bg-blue-700 transition text-blue-100 hover:text-white font-medium">
                 <i class="fa-solid fa-users w-5"></i> Danh sách đặt vé
             </a>
             <a href="logout" class="flex items-center gap-3 py-3 px-4 rounded-xl hover:bg-blue-700 transition text-blue-100 hover:text-white font-medium">
@@ -31,7 +32,7 @@
             </a>
         </nav>
         <div class="p-6 border-t border-blue-700">
-            <a href="index.jsp" class="flex items-center gap-3 py-2 px-4 text-blue-300 hover:text-white transition font-medium"> Về trang chủ </a>
+            <a href="home" class="flex items-center gap-3 py-2 px-4 text-blue-300 hover:text-white transition font-medium"> Về trang chủ </a>
         </div>
     </aside>
 
@@ -49,36 +50,37 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-6 hover:shadow-md transition">
-                    <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-2xl">
+                    <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-2xl shrink-0">
                         <i class="fa-solid fa-ticket"></i>
                     </div>
                     <div>
                         <div class="text-black text-[11px] font-bold uppercase tracking-widest">Vé đã bán</div>
-                        <div class="text-3xl font-bold text-gray-800">452</div>
-                        <div class="text-green-500 text-xs font-bold mt-1"><i class="fa-solid fa-arrow-up"></i> +5.2%</div>
+                        <div class="text-3xl font-bold text-gray-800">${totalTickets}</div>
+                        <div class="text-green-500 text-xs font-bold mt-1"><i class="fa-solid fa-check"></i> Đã thanh toán</div>
                     </div>
                 </div>
 
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-6 hover:shadow-md transition">
-                    <div class="w-14 h-14 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center text-2xl">
+                    <div class="w-14 h-14 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center text-2xl shrink-0">
                         <i class="fa-solid fa-sack-dollar"></i>
                     </div>
-                    
-                    <div>
+                    <div class="truncate">
                         <div class="text-black text-[11px] font-bold uppercase tracking-widest">Doanh thu (VNĐ)</div>
-                        <div class="text-3xl font-bold text-gray-800">340.5M</div>
-                        <div class="text-gray-400 text-xs font-bold mt-1 uppercase italic">Tháng này</div>
+                        <div class="text-xl font-bold text-gray-800 truncate">
+                            <fmt:formatNumber value="${totalRevenue}" type="number" pattern="###,###" /> <span class="text-xl">đ</span>
+                        </div>
+                        <div class="text-gray-400 text-xs font-bold mt-1 uppercase italic">Tổng thời gian</div>
                     </div>
                 </div>
 
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-6 hover:shadow-md transition">
-                    <div class="w-14 h-14 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center text-2xl">
+                    <div class="w-14 h-14 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center text-2xl shrink-0">
                         <i class="fa-solid fa-plane-up"></i>
                     </div>
                     <div>
-                        <div class="text-black text-[11px] font-bold uppercase tracking-widest">Chuyến bay hoạt động</div>
-                        <div class="text-3xl font-bold text-gray-800">18</div>
-                        <div class="text-blue-500 text-xs font-bold mt-1 italic uppercase">Đang vận hành</div>
+                        <div class="text-black text-[11px] font-bold uppercase tracking-widest">Chuyến bay sắp tới</div>
+                        <div class="text-3xl font-bold text-gray-800">${activeFlights}</div>
+                        <div class="text-blue-500 text-xs font-bold mt-1 italic uppercase">Đang mở bán</div>
                     </div>
                 </div>
             </div>
@@ -118,10 +120,7 @@
                     </div>
                 </div>
                 <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-center border-dashed border-2">
-                    <div class="text-center">
-                        <i class="fa-solid fa-chart-line text-gray-200 text-4xl mb-2"></i>
-                        <p class="text-gray-400 font-bold text-xs uppercase italic">Biểu đồ đang được cập nhật...</p>
-                    </div>
+                    <img class="w-full h-36 object-contain" src="./assets/dashboard.jpg">
                 </div>
             </div>
 

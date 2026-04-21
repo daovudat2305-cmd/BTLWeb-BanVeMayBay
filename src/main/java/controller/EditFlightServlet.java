@@ -8,6 +8,8 @@ import dao.AirportDAO;
 import dao.FlightDAO;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,21 +32,24 @@ public class EditFlightServlet extends HttpServlet{
         request.setCharacterEncoding("UTF-8");
 
         try {
-            // Khóa chính (flightId) bây giờ là chuỗi
+            //lấy mã chuyến bay
             String flightId = request.getParameter("flightId"); 
             
-            String airline = request.getParameter("airline");
-            // Mình bỏ qua tên sân bay vì DB của bạn không lưu tên, chỉ lưu mã
-            String depCode = request.getParameter("depCode");
-            String destCode = request.getParameter("destCode");
-            
-            String departureTime = request.getParameter("departureTime"); 
+            String departureTimeStr = request.getParameter("departureTime"); 
             double price = Double.parseDouble(request.getParameter("price"));
             int totalSeats = Integer.parseInt(request.getParameter("totalSeats"));
+            
+            // Xử lý chuyển đổi từ thẻ <input type="datetime-local"> sang Timestamp SQL
+            LocalDateTime departureDateTime = LocalDateTime.parse(departureTimeStr);
+            Timestamp departureTime = Timestamp.valueOf(departureDateTime);
+            
+            // LOGIC TỰ ĐỘNG CỘNG 2 TIẾNG
+            LocalDateTime arrivalDateTime = departureDateTime.plusHours(2); 
+            Timestamp arrivalTime = Timestamp.valueOf(arrivalDateTime);
 
             // Gọi DAO
             FlightDAO dao = new FlightDAO();
-            boolean success = dao.updateFlight(flightId, airline, depCode, destCode, departureTime, price, totalSeats);
+            boolean success = dao.updateFlight(flightId, departureTime, arrivalTime, price, totalSeats);
 
             if (success) {
                 response.sendRedirect("adminFlights?msg=update_success");

@@ -16,7 +16,7 @@ import util.DBConnection;
 public class BookingDAO {
     private static final String BOOKING_SELECT =
         "SELECT b.bookingId, b.username, b.flightId AS bookedFlightId, b.passengerName, "
-            + "b.cccd, b.phone, b.email, b.bookingTime, b.status, b.returnFlightId, "
+            + "b.cccd, b.phone, b.email, b.bookingTime, b.status, "
             + "f.airlineName, f.departureAirport, f.destinationAirport, "
             + "f.departureTime, f.arrivalTime, f.price, f.availableSeats, "
             + "dep.airportName AS depName, arr.airportName AS arrName "
@@ -29,8 +29,8 @@ public class BookingDAO {
         String updateSeatsSql =
             "UPDATE Flight SET availableSeats = availableSeats - 1 WHERE flightId = ? AND availableSeats > 0";
         String insertBookingSql =
-            "INSERT INTO Booking(bookingId, username, flightId, passengerName, cccd, phone, email, bookingTime, status, returnFlightId) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            "INSERT INTO Booking(bookingId, username, flightId, passengerName, cccd, phone, email, bookingTime, status) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DBConnection.getConnection()) {
             if (conn == null) {
@@ -60,8 +60,7 @@ public class BookingDAO {
                     insertBooking.setString(6, phone);
                     insertBooking.setString(7, email);
                     insertBooking.setTimestamp(8, new Timestamp(System.currentTimeMillis()));
-                    insertBooking.setString(9, "CONFIRMED");
-                    insertBooking.setString(10, null);
+                    insertBooking.setString(9, "PENDING");
                     insertBooking.executeUpdate();
                 }
 
@@ -101,14 +100,39 @@ public class BookingDAO {
         return null;
     }
 
-    public List<Booking> getBookingsByUsername(String username) {
+    // Lấy danh sách lịch sử đặt vé của User
+    public List<Booking> getBookingsByUsernameWithFilter(String username, String status, String bookingDate, String flightDate) {
         List<Booking> bookings = new ArrayList<>();
-        String sql = BOOKING_SELECT + "WHERE b.username = ? ORDER BY b.bookingTime DESC";
+        StringBuilder sql = new StringBuilder(BOOKING_SELECT + "WHERE b.username = ? ");
+        List<Object> params = new ArrayList<>();
+        params.add(username);
+
+        // 1. Lọc theo trạng thái
+        if (status != null && !status.trim().isEmpty() && !status.equals("ALL")) {
+            sql.append(" AND b.status = ? ");
+            params.add(status);
+        }
+        
+        // 2. Lọc theo ngày ĐẶT VÉ 
+        if (bookingDate != null && !bookingDate.trim().isEmpty()) {
+            sql.append(" AND DATE(b.bookingTime) = ? ");
+            params.add(bookingDate);
+        }
+
+        // 3. Lọc theo ngày BAY
+        if (flightDate != null && !flightDate.trim().isEmpty()) {
+            sql.append(" AND DATE(f.departureTime) = ? ");
+            params.add(flightDate);
+        }
+
+        sql.append(" ORDER BY b.bookingTime DESC");
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
 
-            ps.setString(1, username);
+            for (int i = 0; i < params.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
+            }
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -157,7 +181,6 @@ public class BookingDAO {
         booking.setEmail(rs.getString("email"));
         booking.setBookingTime(rs.getTimestamp("bookingTime"));
         booking.setStatus(rs.getString("status"));
-        booking.setReturnFlightId(rs.getString("returnFlightId"));
 
         Flight flight = new Flight(
             rs.getString("bookedFlightId"),
@@ -174,5 +197,151 @@ public class BookingDAO {
         booking.setFlight(flight);
 
         return booking;
+    }
+    
+    
+    // admin lấy toàn bộ danh sách đặt vé
+    // tổng số lượng vé (CÓ TÌM KIẾM VÀ LỌC)
+    public int getTotalBookingsCount(String search, String status) {
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM Booking b WHERE 1=1 ");
+        List<Object> params = new ArrayList<>();
+
+        if (search != null && !search.trim().isEmpty()) {
+            sql.append(" AND (b.bookingId LIKE ? OR b.passengerName LIKE ? OR b.cccd LIKE ?) ");
+            String likeSearch = "%" + search.trim() + "%";
+            params.add(likeSearch); params.add(likeSearch); params.add(likeSearch);
+        }
+        if (status != null && !status.trim().isEmpty() && !status.equals("ALL")) {
+            sql.append(" AND b.status = ? ");
+            params.add(status);
+        }
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+            
+            for (int i = 0; i < params.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
+            }
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    // lấy danh sách vé (CÓ PHÂN TRANG, TÌM KIẾM VÀ LỌC)
+    public List<Booking> getBookingsByPage(int offset, int limit, String search, String status) {
+        List<Booking> bookings = new ArrayList<>();
+        StringBuilder sql = new StringBuilder(BOOKING_SELECT + "WHERE 1=1 ");
+        List<Object> params = new ArrayList<>();
+
+        if (search != null && !search.trim().isEmpty()) {
+            sql.append(" AND (b.bookingId LIKE ? OR b.passengerName LIKE ? OR b.cccd LIKE ?) ");
+            String likeSearch = "%" + search.trim() + "%";
+            params.add(likeSearch); params.add(likeSearch); params.add(likeSearch);
+        }
+        if (status != null && !status.trim().isEmpty() && !status.equals("ALL")) {
+            sql.append(" AND b.status = ? ");
+            params.add(status);
+        }
+
+        sql.append(" ORDER BY b.bookingTime DESC LIMIT ? OFFSET ?");
+        params.add(limit);
+        params.add(offset);
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+            
+            for (int i = 0; i < params.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
+            }
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) bookings.add(mapBooking(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return bookings;
+    }
+    
+    //admin duyệt chuyến bay
+    public boolean updateBookingStatus(String bookingId, String newStatus) {
+        String getFlightIdSql = "SELECT flightId, status FROM Booking WHERE bookingId = ?";
+        String updateStatusSql = "UPDATE Booking SET status = ? WHERE bookingId = ?";
+        String restoreSeatSql = "UPDATE Flight SET availableSeats = availableSeats + 1 WHERE flightId = ?";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            conn.setAutoCommit(false); // Bắt đầu Transaction
+            try {
+                String flightId = null;
+                String oldStatus = null;
+
+                // lấy thông tin chuyến bay và trạng thái cũ
+                try (PreparedStatement ps = conn.prepareStatement(getFlightIdSql)) {
+                    ps.setString(1, bookingId);
+                    ResultSet rs = ps.executeQuery();
+                    if (rs.next()) {
+                        flightId = rs.getString("flightId");
+                        oldStatus = rs.getString("status");
+                    }
+                }
+
+                // cập nhật trạng thái mới
+                try (PreparedStatement ps = conn.prepareStatement(updateStatusSql)) {
+                    ps.setString(1, newStatus);
+                    ps.setString(2, bookingId);
+                    ps.executeUpdate();
+                }
+
+                // nếu chuyển từ trạng thái khác sang REJECTED, khôi phục ghế
+                if ("REJECTED".equals(newStatus) && !"REJECTED".equals(oldStatus)) {
+                    try (PreparedStatement ps = conn.prepareStatement(restoreSeatSql)) {
+                        ps.setString(1, flightId);
+                        ps.executeUpdate();
+                    }
+                }
+
+                conn.commit(); // Hoàn tất
+                return true;
+            } catch (SQLException e) {
+                conn.rollback(); // Lỗi thì quay lại
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    //thống kê
+ // Đếm tổng số vé ĐÃ BÁN (Chỉ tính các vé có trạng thái APPROVED)
+    public int getTotalTicketsSold() {
+        String sql = "SELECT COUNT(*) FROM Booking WHERE status = 'APPROVED'";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) return rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    // Tính tổng doanh thu (Cộng dồn giá vé của các đơn APPROVED)
+    public double getTotalRevenue() {
+        String sql = "SELECT SUM(f.price) FROM Booking b INNER JOIN Flight f ON b.flightId = f.flightId WHERE b.status = 'APPROVED'";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) return rs.getDouble(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

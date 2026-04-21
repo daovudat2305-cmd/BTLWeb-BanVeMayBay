@@ -21,7 +21,6 @@
             </div>
             <div class="hidden md:flex space-x-6 font-medium items-center">
                 <a href="home" class="text-gray-600 hover:text-blue-600">Trang Chủ</a>
-                <a href="#" class="text-gray-600 hover:text-blue-600">Săn Vé Rẻ</a>
                 <a href="history" class="text-gray-600 hover:text-blue-600 flex items-center gap-1">
                     <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đặt vé
                 </a>
@@ -74,7 +73,9 @@
             <form action="SearchFlightServlet" method="GET" id="filterForm">
                 <input type="hidden" name="depCode" value="${oldDep}">
                 <input type="hidden" name="destCode" value="${oldDest}">
-
+				<input type="hidden" name="departDate" value="${oldDepDate}">
+                <input type="hidden" name="departTime" value="${oldDepTime}">
+                
                 <div class="bg-white rounded-xl shadow-sm p-5 border border-gray-200">
                     <div class="flex justify-between items-center mb-4 pb-4 border-b">
                         <h3 class="font-bold text-lg text-gray-800">Bộ lọc</h3>
@@ -110,6 +111,22 @@
                                    onchange="this.form.submit()">
                             <span class="text-gray-600">Bamboo Airways</span>
                         </label>
+                        
+                        <label class="flex items-center gap-2 mb-2 cursor-pointer">
+                            <input type="checkbox" name="airline" value="Vietravel Airlines" 
+                                   class="w-4 h-4 text-blue-600"
+                                   ${fn:contains(airlineList, 'Vietravel Airlines') ? 'checked' : ''}
+                                   onchange="this.form.submit()">
+                            <span class="text-gray-600">Vietravel Airlines</span>
+                        </label>
+                        
+                        <label class="flex items-center gap-2 mb-2 cursor-pointer">
+                            <input type="checkbox" name="airline" value="Pacific Airlines" 
+                                   class="w-4 h-4 text-blue-600"
+                                   ${fn:contains(airlineList, 'Pacific Airlines') ? 'checked' : ''}
+                                   onchange="this.form.submit()">
+                            <span class="text-gray-600">Pacific Airlines</span>
+                        </label>
                     </div>
                 </div>
             </form>
@@ -118,7 +135,7 @@
         <div class="md:col-span-3 space-y-4">
             
             <div class="flex items-center gap-2 text-xl font-bold text-blue-800 mb-4 border-b-2 border-blue-200 pb-2">
-                <i class="fa-solid fa-plane-departure"></i> LƯỢT ĐI
+                <i class="fa-solid fa-plane-departure"></i> KẾT QUẢ
             </div>
 
             <c:if test="${empty outboundList}">
@@ -145,6 +162,9 @@
                                 <div class="w-full border-t-2 border-dashed border-gray-300 relative">
                                     <i class="fa-solid fa-plane text-blue-500 absolute top-[-8px] right-0 bg-white px-1"></i>
                                 </div>
+                                <span class="text-[12px] text-gray-500 font-bold mt-1 tracking-widest">
+                                    <fmt:formatDate pattern="dd/MM/yyyy" value="${f.departureTime}" />
+                                </span>
                             </div>
                             <div class="text-center">
                                 <div class="text-xl font-bold text-gray-900">
@@ -165,59 +185,6 @@
                     </div>
                 </div>
             </c:forEach>
-
-
-            <c:if test="${tripType == 'roundtrip'}">
-                
-                <div class="flex items-center gap-2 text-xl font-bold text-orange-600 mb-4 mt-10 border-b-2 border-orange-200 pb-2">
-                    <i class="fa-solid fa-plane-arrival"></i> LƯỢT VỀ
-                </div>
-
-                <c:if test="${empty returnList}">
-                    <div class="bg-red-50 text-red-600 p-6 rounded-xl border border-red-200 text-center font-medium">
-                        <i class="fa-solid fa-face-frown mr-2"></i> Rất tiếc, không có chuyến bay lượt về nào phù hợp!
-                    </div>
-                </c:if>
-
-                <c:forEach var="f" items="${returnList}">
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 hover:shadow-md transition">
-                        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-                            <div class="w-full md:w-1/4 flex flex-col">
-                                <span class="inline-block bg-orange-100 text-orange-800 text-xs font-bold px-2 py-1 rounded w-max mb-1 uppercase">${f.airlineName}</span>
-                                <span class="text-sm text-gray-500">${f.flightId} • Còn ${f.availableSeats} ghế</span>
-                            </div>
-                            
-                            <div class="w-full md:w-2/4 flex justify-between items-center px-4">
-                                <div class="text-center">
-                                    <div class="text-xl font-bold text-gray-900">${fn:substring(f.departureTime, 11, 16)}</div>
-                                    <div class="text-sm text-gray-500 font-bold">${f.departureAirport}</div>
-                                </div>
-                                <div class="flex flex-col items-center flex-1 px-4">
-                                    <span class="text-xs text-gray-400 mb-1">Bay thẳng</span>
-                                    <div class="w-full border-t-2 border-dashed border-gray-300 relative">
-                                        <i class="fa-solid fa-plane text-orange-500 absolute top-[-8px] right-0 bg-white px-1" style="transform: rotate(180deg);"></i>
-                                    </div>
-                                </div>
-                                <div class="text-center">
-                                    <div class="text-xl font-bold text-gray-900">
-                                        <fmt:formatDate pattern="HH:mm" value="${f.arrivalTime}" />
-                                    </div>
-                                    <div class="text-sm text-gray-500 font-bold">${f.destinationAirport}</div>
-                                </div>
-                            </div>
-
-                            <div class="w-full md:w-1/4 flex flex-col items-end border-t md:border-t-0 md:border-l pt-4 md:pt-0 pl-0 md:pl-4">
-                                <div class="text-2xl font-black text-orange-600 mb-2">
-                                    <fmt:formatNumber value="${f.price}" type="number" pattern="###,###"/> đ
-                                </div>
-                                <a href="booking?id=${f.flightId}" class="w-full bg-orange-500 hover:bg-orange-600 text-white text-center font-bold py-2 px-4 rounded transition shadow-md shadow-orange-200">
-                                    Chọn vé
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </c:forEach>
-            </c:if>
 
         </div>
     </main>

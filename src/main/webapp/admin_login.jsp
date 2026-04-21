@@ -57,8 +57,8 @@
             </form>
 
             <p class="mt-8 text-center text-sm text-gray-500">
-                <a href="index.jsp" class="font-medium hover:text-gray-800 transition-colors flex justify-center items-center gap-2">
-                    <i class="fa-solid fa-arrow-left"></i> Quay lại trang chủ khách hàng
+                <a href="login.jsp" class="font-medium hover:text-gray-800 transition-colors flex justify-center items-center gap-2">
+                    <i class="fa-solid fa-arrow-left"></i> Quay lại trang đăng nhập khách hàng
                 </a>
             </p>
         </div>
