@@ -53,6 +53,8 @@
                             <option value="Vietjet Air" ${selectedAirline == 'Vietjet Air' ? 'selected' : ''}>Vietjet Air</option>
                             <option value="Vietnam Airlines" ${selectedAirline == 'Vietnam Airlines' ? 'selected' : ''}>Vietnam Airlines</option>
                             <option value="Bamboo Airways" ${selectedAirline == 'Bamboo Airways' ? 'selected' : ''}>Bamboo Airways</option>
+                            <option value="Vietravel Airlines" ${selectedAirline == 'Vietravel Airlines' ? 'selected' : ''}>Vietravel Airlines</option>
+                            <option value="Pacific Airlines" ${selectedAirline == 'Pacific Airlines' ? 'selected' : ''}>Pacific Airlines</option>
                         </select>
                     </div>
                     <button type="submit" class="px-6 py-2.5 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 transition text-sm flex items-center gap-2">
