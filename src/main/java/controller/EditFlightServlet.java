@@ -62,8 +62,9 @@ public class EditFlightServlet extends HttpServlet{
             response.getWriter().println("Lỗi dữ liệu đầu vào: " + e.getMessage());
         }
     }
+    
     @Override
-protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
         throws ServletException, IOException {
     
         try {

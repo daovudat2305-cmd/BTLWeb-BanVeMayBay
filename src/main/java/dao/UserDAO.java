@@ -97,8 +97,9 @@ public class UserDAO {
 		}
 		return null;
 	}
-        // tạo tại khoản admin
-        public static boolean createAdminUser(String username, String email, String plainPassword, String fullName) {
+    
+	// tạo tại khoản admin
+    public static boolean createAdminUser(String username, String email, String plainPassword, String fullName) {
 		// 1. Kiểm tra xem username hoặc email đã bị người khác dùng chưa
 		if (checkUsernameExist(username)) {
 			System.out.println("Tạo Admin thất bại: Username đã tồn tại.");

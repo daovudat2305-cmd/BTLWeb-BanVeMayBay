@@ -25,6 +25,9 @@ public class BookingDAO {
             + "LEFT JOIN Airport dep ON f.departureAirport = dep.airportCode "
             + "LEFT JOIN Airport arr ON f.destinationAirport = arr.airportCode ";
 
+    
+    //=============================================
+    // USER ĐẶT VÉ, XEM TRẠNG THÁI VÀ LỊCH SỬ   
     public String createBooking(String username, String flightId, String passengerName, String cccd, String phone, String email) {
         String updateSeatsSql =
             "UPDATE Flight SET availableSeats = availableSeats - 1 WHERE flightId = ? AND availableSeats > 0";
@@ -145,62 +148,10 @@ public class BookingDAO {
 
         return bookings;
     }
-
-    private String generateUniqueBookingId(Connection conn) throws SQLException {
-        for (int i = 0; i < 10; i++) {
-            String bookingId = UUID.randomUUID().toString().replace("-", "").substring(0, 8).toUpperCase();
-
-            if (!bookingIdExists(conn, bookingId)) {
-                return bookingId;
-            }
-        }
-
-        throw new SQLException("Unable to generate unique booking id");
-    }
-
-    private boolean bookingIdExists(Connection conn, String bookingId) throws SQLException {
-        String sql = "SELECT 1 FROM Booking WHERE bookingId = ?";
-
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, bookingId);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                return rs.next();
-            }
-        }
-    }
-
-    private Booking mapBooking(ResultSet rs) throws SQLException {
-        Booking booking = new Booking();
-        booking.setBookingId(rs.getString("bookingId"));
-        booking.setUsername(rs.getString("username"));
-        booking.setFlightId(rs.getString("bookedFlightId"));
-        booking.setPassengerName(rs.getString("passengerName"));
-        booking.setCccd(rs.getString("cccd"));
-        booking.setPhone(rs.getString("phone"));
-        booking.setEmail(rs.getString("email"));
-        booking.setBookingTime(rs.getTimestamp("bookingTime"));
-        booking.setStatus(rs.getString("status"));
-
-        Flight flight = new Flight(
-            rs.getString("bookedFlightId"),
-            rs.getString("airlineName"),
-            rs.getString("departureAirport"),
-            rs.getString("destinationAirport"),
-            rs.getTimestamp("departureTime"),
-            rs.getTimestamp("arrivalTime"),
-            rs.getDouble("price"),
-            rs.getInt("availableSeats"),
-            rs.getString("depName"),
-            rs.getString("arrName")
-        );
-        booking.setFlight(flight);
-
-        return booking;
-    }
     
     
-    // admin lấy toàn bộ danh sách đặt vé
+    //=============================================
+    // THỐNG KÊ, QUẢN LÝ CHUYẾN BAY CHO ADMIN
     // tổng số lượng vé (CÓ TÌM KIẾM VÀ LỌC)
     public int getTotalBookingsCount(String search, String status) {
         StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM Booking b WHERE 1=1 ");
@@ -319,7 +270,7 @@ public class BookingDAO {
     }
     
     //thống kê
- // Đếm tổng số vé ĐÃ BÁN (Chỉ tính các vé có trạng thái APPROVED)
+    // Đếm tổng số vé ĐÃ BÁN (Chỉ tính các vé có trạng thái APPROVED)
     public int getTotalTicketsSold() {
         String sql = "SELECT COUNT(*) FROM Booking WHERE status = 'APPROVED'";
         try (Connection conn = DBConnection.getConnection();
@@ -344,4 +295,61 @@ public class BookingDAO {
         }
         return 0;
     }
+    
+    
+    //===================================
+    //CÁC HÀM TIỆN ÍCH
+    private String generateUniqueBookingId(Connection conn) throws SQLException {
+        for (int i = 0; i < 10; i++) {
+            String bookingId = UUID.randomUUID().toString().replace("-", "").substring(0, 8).toUpperCase();
+
+            if (!bookingIdExists(conn, bookingId)) {
+                return bookingId;
+            }
+        }
+
+        throw new SQLException("Unable to generate unique booking id");
+    }
+
+    private boolean bookingIdExists(Connection conn, String bookingId) throws SQLException {
+        String sql = "SELECT 1 FROM Booking WHERE bookingId = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, bookingId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
+
+    private Booking mapBooking(ResultSet rs) throws SQLException {
+        Booking booking = new Booking();
+        booking.setBookingId(rs.getString("bookingId"));
+        booking.setUsername(rs.getString("username"));
+        booking.setFlightId(rs.getString("bookedFlightId"));
+        booking.setPassengerName(rs.getString("passengerName"));
+        booking.setCccd(rs.getString("cccd"));
+        booking.setPhone(rs.getString("phone"));
+        booking.setEmail(rs.getString("email"));
+        booking.setBookingTime(rs.getTimestamp("bookingTime"));
+        booking.setStatus(rs.getString("status"));
+
+        Flight flight = new Flight(
+            rs.getString("bookedFlightId"),
+            rs.getString("airlineName"),
+            rs.getString("departureAirport"),
+            rs.getString("destinationAirport"),
+            rs.getTimestamp("departureTime"),
+            rs.getTimestamp("arrivalTime"),
+            rs.getDouble("price"),
+            rs.getInt("availableSeats"),
+            rs.getString("depName"),
+            rs.getString("arrName")
+        );
+        booking.setFlight(flight);
+
+        return booking;
+    }
+    
 }

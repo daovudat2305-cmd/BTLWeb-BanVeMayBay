@@ -35,7 +35,7 @@ public class UserSearchFlightServlet extends HttpServlet{
         // 3. Lấy mảng Hãng hàng không
         String[] selectedAirlines = request.getParameterValues("airline");
 
-        // 4. Gọi DAO (Truyền 5 tham số)
+        // 4. Gọi DAO 
         FlightDAO dao = new FlightDAO();
         List<Flight> list = dao.searchWithFilter(depCode, destCode, departDate, departTime, selectedAirlines);
 
