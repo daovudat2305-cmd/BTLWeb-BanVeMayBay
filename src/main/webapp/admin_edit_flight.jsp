@@ -23,6 +23,9 @@
             <a href="adminFlights" class="flex items-center gap-3 py-3 px-4 rounded-xl bg-blue-700 font-bold shadow-lg shadow-blue-900/20">
                 <i class="fa-solid fa-plane w-5"></i> Quản lý chuyến bay
             </a>
+            <a href="adminCompletedFlights" class="flex items-center gap-3 py-3 px-4 rounded-xl hover:bg-blue-700 transition text-blue-100 hover:text-white font-medium">
+                <i class="fa-solid fa-file-invoice-dollar w-5"></i> Chuyến bay hoàn thành
+            </a>
             <a href="adminBookings" class="flex items-center gap-3 py-3 px-4 rounded-xl hover:bg-blue-700 transition text-blue-100 hover:text-white font-medium">
                 <i class="fa-solid fa-users w-5"></i> Danh sách đặt vé
             </a>
@@ -52,23 +55,23 @@
 
         <div class="px-8 -mt-6 pb-12">
             <form action="EditFlightServlet" method="POST" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                <input type="hidden" name="oldFlightId" value="${f.flightId}">
+                <input type="hidden" name="flightId" value="${f.flightId}">
                 
                 <div class="p-8 space-y-8">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="space-y-2">
                             <label class="text-[11px] font-bold text-black uppercase tracking-widest ml-1">Hãng hàng không</label>
-                            <select id="airlineSelect" name="airlineName" onchange="syncFlightId()" class="w-full px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none font-bold transition bg-white text-gray-800">
-                                <option value="Vietjet Air" data-prefix="VJ" ${f.airlineName == 'Vietjet Air' ? 'selected' : ''}>Vietjet Air</option>
-                                <option value="Vietnam Airlines" data-prefix="VN" ${f.airlineName == 'Vietnam Airlines' ? 'selected' : ''}>Vietnam Airlines</option>
-                                <option value="Bamboo Airways" data-prefix="QH" ${f.airlineName == 'Bamboo Airways' ? 'selected' : ''}>Bamboo Airways</option>
-                                <option value="Vietravel Airlines" data-prefix="VU" ${f.airlineName == 'Vietravel Airlines' ? 'selected' : ''}>Vietravel Airlines</option>
-                                <option value="Pacific Airlines" data-prefix="BL" ${f.airlineName == 'Pacific Airlines' ? 'selected' : ''}>Pacific Airlines</option>
+                            <select disabled name="airline" class="w-full px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none font-bold transition bg-gray-50 text-gray-800">
+                                <option value="Vietjet Air" ${f.airlineName == 'Vietjet Air' ? 'selected' : ''}>Vietjet Air</option>
+                                <option value="Vietnam Airlines" ${f.airlineName == 'Vietnam Airlines' ? 'selected' : ''}>Vietnam Airlines</option>
+                                <option value="Bamboo Airways" ${f.airlineName == 'Bamboo Airways' ? 'selected' : ''}>Bamboo Airways</option>
+                                <option value="Vietravel Airlines" ${f.airlineName == 'Vietravel Airlines' ? 'selected' : ''}>Vietravel Airlines</option>
+                                <option value="Pacific Airlines" ${f.airlineName == 'Pacific Airlines' ? 'selected' : ''}>Pacific Airlines</option>
                             </select>
                         </div>
                         <div class="space-y-2">
                             <label class="text-[11px] font-bold text-black uppercase tracking-widest ml-1">Số hiệu chuyến bay</label>
-                            <input type="text" id="flightIdInput" name="newFlightId" value="${f.flightId}" class="w-full px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none font-bold transition text-gray-800">
+                            <input type="text" disabled name="flightNumber" value="${f.flightId}" class="w-full px-5 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none font-bold transition text-gray-800">
                         </div>
                     </div>
 
@@ -80,30 +83,22 @@
                         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 bg-blue-50/50 p-5 rounded-2xl border border-blue-100 shadow-sm">
                             <div class="md:col-span-3 space-y-1">
                                 <label class="text-[11px] font-bold text-black uppercase ml-1">Tên sân bay đi</label>
-                                <select id="depSelect" name="departureAirport" onchange="updateCode('depSelect', 'depCodeInput')" class="w-full px-4 py-2.5 rounded-lg border border-blue-200 focus:ring-2 focus:ring-blue-500 outline-none font-bold transition bg-white">
-                                    <c:forEach items="${listA}" var="a">
-                                        <option value="${a.airportCode}" ${a.airportCode == f.departureAirport ? 'selected' : ''}>${a.airportName}</option>
-                                    </c:forEach>
-                                </select>
+                                <input type="text" disabled name="depName" value="${ad.airportName}" class="w-full px-4 py-2.5 rounded-lg border border-blue-200 focus:ring-2 focus:ring-blue-500 outline-none font-bold transition text-gray-800">
                             </div>
                             <div class="md:col-span-1 space-y-1">
                                 <label class="text-[11px] font-bold text-black uppercase">Mã sân bay</label>
-                                <input type="text" id="depCodeInput" readonly name="depCode" value="${f.departureAirport}" class="w-full px-4 py-2.5 rounded-lg border border-blue-200 bg-blue-100 font-black text-center uppercase text-blue-800 outline-none cursor-not-allowed">
+                                <input type="text" disabled name="depCode" value="${f.departureAirport}" class="w-full px-4 py-2.5 rounded-lg border border-blue-200 focus:ring-2 focus:ring-blue-500 outline-none font-bold text-center uppercase text-blue-800 transition">
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 bg-orange-50/50 p-5 rounded-2xl border border-orange-100 shadow-sm">
                             <div class="md:col-span-3 space-y-1">
                                 <label class="text-[11px] font-bold text-black uppercase ml-1">Tên sân bay đến</label>
-                                <select id="destSelect" name="destinationAirport" onchange="updateCode('destSelect', 'destCodeInput')" class="w-full px-4 py-2.5 rounded-lg border border-orange-200 focus:ring-2 focus:ring-orange-500 outline-none font-bold transition bg-white">
-                                    <c:forEach items="${listA}" var="a">
-                                        <option value="${a.airportCode}" ${a.airportCode == f.destinationAirport ? 'selected' : ''}>${a.airportName}</option>
-                                    </c:forEach>
-                                </select>
+                                <input type="text" disabled name="destName" value="${ade.airportName}" class="w-full px-4 py-2.5 rounded-lg border border-orange-200 focus:ring-2 focus:ring-orange-500 outline-none font-bold transition text-gray-800">
                             </div>
                             <div class="md:col-span-1 space-y-1">
                                 <label class="text-[11px] font-bold text-black uppercase">Mã sân bay</label>
-                                <input type="text" id="destCodeInput" readonly name="destCode" value="${f.destinationAirport}" class="w-full px-4 py-2.5 rounded-lg border border-orange-200 bg-orange-100 font-black text-center uppercase text-orange-600 outline-none cursor-not-allowed">
+                                <input type="text" disabled name="destCode" value="${f.destinationAirport}" class="w-full px-4 py-2.5 rounded-lg border border-orange-200 focus:ring-2 focus:ring-orange-500 outline-none font-bold text-center uppercase text-orange-600 transition">
                             </div>
                         </div>
                     </div>
@@ -135,26 +130,5 @@
             </form>
         </div>
     </main>
-
-    <script>
-        function updateCode(selectId, inputId) {
-            const selectEl = document.getElementById(selectId);
-            const inputEl = document.getElementById(inputId);
-            inputEl.value = selectEl.value; // Gán mã sân bay vào ô readonly
-        }
-
-        function syncFlightId() {
-            const airlineSelect = document.getElementById('airlineSelect');
-            const flightIdInput = document.getElementById('flightIdInput');
-            
-            const prefix = airlineSelect.options[airlineSelect.selectedIndex].getAttribute('data-prefix');
-            
-            let currentVal = flightIdInput.value;
-            let parts = currentVal.split('-');
-            let numberPart = parts.length > 1 ? parts[1] : parts[0].replace(/^[A-Z]+/, '');
-            
-            flightIdInput.value = prefix + "-" + (numberPart || "000");
-        }
-    </script>
 </body>
 </html>

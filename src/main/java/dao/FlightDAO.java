@@ -462,35 +462,4 @@ public class FlightDAO {
         }
         return flightId;
     }
-    
-    public boolean updateFlightFull(String oldFlightId, Flight f) {
-        String sql = "UPDATE Flight SET flightId = ?, airlineName = ?, departureAirport = ?, "
-                   + "destinationAirport = ?, departureTime = ?, arrivalTime = ?, "
-                   + "price = ?, availableSeats = ? WHERE flightId = ?";
-
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            // Truyền 8 tham số mới cập nhật
-            ps.setString(1, f.getFlightId());         // Mã chuyến bay mới (nếu có đổi theo hãng)
-            ps.setString(2, f.getAirlineName());      // Hãng hàng không mới
-            ps.setString(3, f.getDepartureAirport()); // Mã sân bay đi mới
-            ps.setString(4, f.getDestinationAirport()); // Mã sân bay đến mới
-            ps.setTimestamp(5, f.getDepartureTime());
-            ps.setTimestamp(6, f.getArrivalTime());
-            ps.setDouble(7, f.getPrice());
-            ps.setInt(8, f.getAvailableSeats());
-            
-            // Tham số thứ 9 là ID cũ để tìm đúng dòng trong Database
-            ps.setString(9, oldFlightId);             
-
-            // Chạy lệnh và trả về true nếu có ít nhất 1 dòng được sửa thành công
-            return ps.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.out.println("Lỗi updateFlightFull: " + e.getMessage());
-            e.printStackTrace();
-        }
-        return false;
-    }
 }
